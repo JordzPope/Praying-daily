@@ -23,7 +23,7 @@ export default function IntroScreen() {
         <TouchableOpacity
           activeOpacity={0.9}
           style={styles.button}
-          onPress={() => router.replace('/(tabs)')}>
+          onPress={() => router.push('/time')}>
           <Text style={styles.buttonText}>Continue</Text>
         </TouchableOpacity>
       </SafeAreaView>
