@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Platform, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Platform, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View, Modal } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { FontAwesome5 } from '@expo/vector-icons';
 
@@ -49,6 +49,8 @@ export default function DashboardScreen() {
   });
 
   const [completedPrayers, setCompletedPrayers] = useState<PrayerItem[]>([]);
+  const [optionsVisible, setOptionsVisible] = useState(false);
+  const [selectedPrayer, setSelectedPrayer] = useState<PrayerItem | null>(null);
 
   const toggleComplete = (prayer: PrayerItem) => {
     setActivePrayers((current) => {
@@ -76,6 +78,26 @@ export default function DashboardScreen() {
     return false;
   };
 
+  const openOptions = (prayer: PrayerItem) => {
+    setSelectedPrayer(prayer);
+    setOptionsVisible(true);
+  };
+
+  const handleEdit = () => {
+    setOptionsVisible(false);
+    if (selectedPrayer) {
+      // placeholder edit hook
+    }
+  };
+
+  const handleDelete = () => {
+    if (selectedPrayer) {
+      setActivePrayers((current) => current.filter((p) => p.id !== selectedPrayer.id));
+      setCompletedPrayers((done) => done.filter((p) => p.id !== selectedPrayer.id));
+    }
+    setOptionsVisible(false);
+  };
+
   const renderPrayer = (prayer: PrayerItem, completed = false) => {
     const topic = getTopicById(prayer.topicId);
     return (
@@ -84,7 +106,9 @@ export default function DashboardScreen() {
           <FontAwesome5 name={topic.icon as any} size={22} color={TOPIC_ICON_COLOR} />
         </View>
         <View style={styles.prayerInfo}>
-          <Text style={styles.prayerName}>{prayer.name}</Text>
+          <Pressable onPress={() => openOptions(prayer)}>
+            <Text style={styles.prayerName}>{prayer.name}</Text>
+          </Pressable>
           {prayer.days.length > 0 && (
             <Text style={styles.prayerMeta}>{prayer.days.join(', ')}</Text>
           )}
@@ -148,6 +172,23 @@ export default function DashboardScreen() {
       <Pressable style={styles.addButton} accessibilityLabel="Add prayer">
         <FontAwesome5 name="plus" size={20} color="#FFFFFF" />
       </Pressable>
+
+      <Modal visible={optionsVisible} transparent animationType="fade" onRequestClose={() => setOptionsVisible(false)}>
+        <View style={styles.modalBackdrop}>
+          <View style={styles.modalCard}>
+            <Text style={styles.modalTitle}>{selectedPrayer?.name}</Text>
+            <Pressable style={styles.modalButton} onPress={handleEdit}>
+              <Text style={styles.modalButtonText}>Edit</Text>
+            </Pressable>
+            <Pressable style={styles.modalButton} onPress={handleDelete}>
+              <Text style={styles.modalButtonText}>Delete</Text>
+            </Pressable>
+            <Pressable style={styles.modalCancel} onPress={() => setOptionsVisible(false)}>
+              <Text style={styles.modalCancelText}>Cancel</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -356,5 +397,48 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 8 },
     shadowRadius: 12,
     elevation: 6,
+  },
+  modalBackdrop: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 24,
+  },
+  modalCard: {
+    width: '100%',
+    backgroundColor: '#F9E8D7',
+    borderRadius: 20,
+    padding: 24,
+    gap: 12,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#1B1008',
+    textAlign: 'center',
+    fontFamily: FONT_FAMILY,
+  },
+  modalButton: {
+    backgroundColor: '#3F8A3D',
+    paddingVertical: 12,
+    borderRadius: 999,
+    alignItems: 'center',
+  },
+  modalButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '600',
+    fontFamily: FONT_FAMILY,
+  },
+  modalCancel: {
+    paddingVertical: 10,
+    alignItems: 'center',
+  },
+  modalCancelText: {
+    color: '#7A6A5C',
+    fontSize: 16,
+    fontWeight: '600',
+    fontFamily: FONT_FAMILY,
   },
 });
