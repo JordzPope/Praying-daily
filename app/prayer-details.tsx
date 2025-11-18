@@ -61,7 +61,7 @@ export default function PrayerDetailsScreen() {
   };
 
   const handleContinue = () => {
-    router.push('/(tabs)');
+    router.push('/');
   };
 
   return (
