@@ -61,12 +61,21 @@ export default function PrayerDetailsScreen() {
   };
 
   const handleContinue = () => {
+    const selectedDayIds = Array.from(selectedDays);
+    const dayLetters = selectedDayIds.map((id) => {
+      const match = DAYS.find((day) => day.id === id);
+      return match ? match.label : id.charAt(0).toUpperCase();
+    });
+
     const payload = {
+      id: `prayer-${Date.now()}`,
       topic: topic.id,
       name: prayerName || `${topic.label} Prayer`,
       repeat: repeatDaily ? 'daily' : 'custom',
-      days: JSON.stringify(Array.from(selectedDays)),
+      days: JSON.stringify(dayLetters),
+      dayIds: JSON.stringify(selectedDayIds),
       reminder: reminderEnabled ? '1' : '0',
+      mode: 'new',
     };
     router.push({ pathname: '/dashboard', params: payload } as never);
   };

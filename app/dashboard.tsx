@@ -1,6 +1,6 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Platform, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View, Modal } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { FontAwesome5 } from '@expo/vector-icons';
 
 import { TOPIC_ICON_COLOR, TOPICS, TopicId, getTopicById } from '@/constants/topics';
@@ -11,46 +11,62 @@ const PRIMARY_GREEN = '#3F8A3D';
 const DAY_LABELS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
 export default function DashboardScreen() {
+  const router = useRouter();
   const params = useLocalSearchParams<{
     topic?: TopicId;
     name?: string;
     repeat?: string;
     days?: string;
     reminder?: string;
+    id?: string;
+    mode?: 'new' | 'edit';
   }>();
 
   const today = useMemo(() => new Date(), []);
   const weekDays = useMemo(() => buildWeek(today), [today]);
   const [selectedDay, setSelectedDay] = useState<Date>(today);
 
-  const onboardingPrayer = useMemo(() => {
+  const incomingPrayer = useMemo(() => {
     const topicId = Array.isArray(params.topic) ? params.topic[0] : params.topic;
     if (!topicId) return undefined;
     const topic = getTopicById(topicId);
     const nameParam = Array.isArray(params.name) ? params.name[0] : params.name;
     const reminderParam = Array.isArray(params.reminder) ? params.reminder[0] : params.reminder;
     const dayParam = Array.isArray(params.days) ? params.days[0] : params.days;
+    const idParam = Array.isArray(params.id) ? params.id[0] : params.id;
+    const modeParam = Array.isArray(params.mode) ? params.mode[0] : params.mode;
 
     return {
-      id: `onboarding-${topic.id}`,
+      id: idParam ?? `prayer-${Date.now()}`,
       topicId: topic.id,
-      name: nameParam && nameParam.length > 0 ? nameParam : `${topic.label} Prayer` ,
+      name: nameParam && nameParam.length > 0 ? nameParam : `${topic.label} Prayer`,
       reminder: reminderParam === '1',
       days: safeParseDays(dayParam),
       completed: false,
+      mode: modeParam ?? 'new',
     } as PrayerItem;
   }, [params]);
 
-  const [activePrayers, setActivePrayers] = useState<PrayerItem[]>(() => {
-    if (onboardingPrayer) {
-      return [onboardingPrayer, ...samplePrayers.filter((p) => p.id !== onboardingPrayer.id)];
-    }
-    return samplePrayers;
-  });
-
+  const [activePrayers, setActivePrayers] = useState<PrayerItem[]>(samplePrayers);
   const [completedPrayers, setCompletedPrayers] = useState<PrayerItem[]>([]);
   const [optionsVisible, setOptionsVisible] = useState(false);
   const [selectedPrayer, setSelectedPrayer] = useState<PrayerItem | null>(null);
+
+  useEffect(() => {
+    if (!incomingPrayer) return;
+    if (incomingPrayer.mode === 'edit') {
+      setActivePrayers((current) => {
+        const exists = current.some((p) => p.id === incomingPrayer.id);
+        if (exists) {
+          return current.map((p) => (p.id === incomingPrayer.id ? { ...incomingPrayer, mode: undefined } : p));
+        }
+        return current;
+      });
+      setCompletedPrayers((current) => current.map((p) => (p.id === incomingPrayer.id ? { ...incomingPrayer, mode: undefined } : p)));
+    } else {
+      setActivePrayers((current) => [{ ...incomingPrayer, mode: undefined }, ...current.filter((p) => p.id !== incomingPrayer.id)]);
+    }
+  }, [incomingPrayer]);
 
   const toggleComplete = (prayer: PrayerItem) => {
     setActivePrayers((current) => {
@@ -86,7 +102,16 @@ export default function DashboardScreen() {
   const handleEdit = () => {
     setOptionsVisible(false);
     if (selectedPrayer) {
-      // placeholder edit hook
+      router.push({
+        pathname: '/edit-prayer',
+        params: {
+          id: selectedPrayer.id,
+          topic: selectedPrayer.topicId,
+          name: selectedPrayer.name,
+          reminder: selectedPrayer.reminder ? '1' : '0',
+          days: JSON.stringify(selectedPrayer.days),
+        },
+      } as never);
     }
   };
 
@@ -243,6 +268,7 @@ interface PrayerItem {
   days: string[];
   reminder: boolean;
   completed: boolean;
+  mode?: 'new' | 'edit';
 }
 
 const styles = StyleSheet.create({
