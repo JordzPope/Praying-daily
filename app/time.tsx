@@ -17,6 +17,8 @@ const FONT_FAMILY = Platform.select({ ios: 'Helvetica', android: 'sans-serif-med
 const ITEM_HEIGHT = 48;
 const VISIBLE_ITEM_COUNT = 3;
 
+import { getReminderTimeSync, hydrateReminderTime, setReminderTime } from '@/state/reminder-preference';
+
 type WheelPickerProps = {
   options: string[];
   value: string;
@@ -26,8 +28,17 @@ type WheelPickerProps = {
 
 export default function TimeSelectionScreen() {
   const router = useRouter();
-  const [hour, setHour] = useState('07');
-  const [minute, setMinute] = useState('00');
+  const initial = getReminderTimeSync();
+  const [hour, setHour] = useState(initial.split(':')[0]);
+  const [minute, setMinute] = useState(initial.split(':')[1]);
+
+  useEffect(() => {
+    hydrateReminderTime().then((value) => {
+      const [h, m] = value.split(':');
+      setHour(h);
+      setMinute(m);
+    });
+  }, []);
 
   const hourOptions = useMemo(() => Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0')), []);
   const minuteOptions = useMemo(() => Array.from({ length: 60 }, (_, i) => i.toString().padStart(2, '0')), []);
@@ -53,7 +64,13 @@ export default function TimeSelectionScreen() {
           </View>
         </View>
 
-        <TouchableOpacity style={styles.button} activeOpacity={0.9} onPress={() => router.push('/topic')}>
+        <TouchableOpacity
+          style={styles.button}
+          activeOpacity={0.9}
+          onPress={async () => {
+            await setReminderTime(`${hour}:${minute}`);
+            router.push('/topic');
+          }}>
           <Text style={styles.buttonText}>Continue</Text>
         </TouchableOpacity>
       </SafeAreaView>

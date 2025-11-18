@@ -1,5 +1,18 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Platform, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View, Modal } from 'react-native';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  FlatList,
+  ListRenderItemInfo,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  Platform,
+  Pressable,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Modal,
+} from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { FontAwesome5 } from '@expo/vector-icons';
 
@@ -10,6 +23,8 @@ const FONT_FAMILY = Platform.select({ ios: 'Helvetica', android: 'sans-serif-med
 const PRIMARY_GREEN = '#3F8A3D';
 
 const DAY_LABELS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+const REMINDER_ITEM_HEIGHT = 48;
+const REMINDER_VISIBLE_COUNT = 3;
 
 export default function DashboardScreen() {
   const router = useRouter();
@@ -58,6 +73,12 @@ export default function DashboardScreen() {
   const [completedPrayers, setCompletedPrayers] = useState<PrayerItem[]>([]);
   const [optionsVisible, setOptionsVisible] = useState(false);
   const [selectedPrayer, setSelectedPrayer] = useState<PrayerItem | null>(null);
+  const [reminderVisible, setReminderVisible] = useState(false);
+  const [reminderHour, setReminderHour] = useState('07');
+  const [reminderMinute, setReminderMinute] = useState('00');
+
+  const reminderHourOptions = useMemo(() => Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0')), []);
+  const reminderMinuteOptions = useMemo(() => Array.from({ length: 60 }, (_, i) => i.toString().padStart(2, '0')), []);
 
   useEffect(() => {
     if (!incomingPrayer) return;
@@ -163,7 +184,9 @@ export default function DashboardScreen() {
         <View style={styles.headerRow}>
           <FontAwesome5 name="bars" size={18} color="#1B1008" />
           <Text style={styles.todayLabel}>Today</Text>
-          <FontAwesome5 name="bell" size={18} color="#1B1008" />
+          <Pressable accessibilityLabel="Change reminder time" onPress={() => setReminderVisible(true)}>
+            <FontAwesome5 name="bell" size={18} color="#1B1008" />
+          </Pressable>
         </View>
 
         <View style={styles.calendarCard}>
@@ -226,6 +249,41 @@ export default function DashboardScreen() {
           </View>
         </View>
       </Modal>
+
+      <Modal
+        visible={reminderVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setReminderVisible(false)}>
+        <View style={styles.modalBackdrop}>
+          <View style={styles.reminderCard}>
+            <Text style={styles.reminderTitle}>Change the time you pray</Text>
+            <View style={styles.reminderPickerRow}>
+              <ReminderWheel
+                options={reminderHourOptions}
+                value={reminderHour}
+                onChange={setReminderHour}
+                accessibilityLabel="Hour picker"
+              />
+              <ReminderWheel
+                options={reminderMinuteOptions}
+                value={reminderMinute}
+                onChange={setReminderMinute}
+                accessibilityLabel="Minute picker"
+              />
+            </View>
+            <Pressable
+              style={styles.reminderSaveButton}
+              accessibilityLabel="Save reminder time"
+              onPress={() => setReminderVisible(false)}>
+              <Text style={styles.reminderSaveText}>Save</Text>
+            </Pressable>
+            <Pressable style={styles.modalCancel} onPress={() => setReminderVisible(false)}>
+              <Text style={styles.modalCancelText}>Cancel</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -281,6 +339,71 @@ interface PrayerItem {
   reminder: boolean;
   completed: boolean;
   mode?: 'new' | 'edit';
+}
+
+type ReminderWheelProps = {
+  options: string[];
+  value: string;
+  onChange: (value: string) => void;
+  accessibilityLabel?: string;
+};
+
+function ReminderWheel({ options, value, onChange, accessibilityLabel }: ReminderWheelProps) {
+  const listRef = useRef<FlatList<string>>(null);
+  const [internalValue, setInternalValue] = useState(value);
+
+  useEffect(() => {
+    setInternalValue(value);
+  }, [value]);
+
+  const getItemLayout = useCallback((_: ArrayLike<string> | null | undefined, index: number) => {
+    return { length: REMINDER_ITEM_HEIGHT, offset: REMINDER_ITEM_HEIGHT * index, index };
+  }, []);
+
+  useEffect(() => {
+    const initialIndex = Math.max(options.indexOf(value), 0);
+    requestAnimationFrame(() => {
+      listRef.current?.scrollToOffset({ offset: initialIndex * REMINDER_ITEM_HEIGHT, animated: false });
+    });
+  }, [value, options]);
+
+  const handleMomentumScrollEnd = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const offsetY = event.nativeEvent.contentOffset.y;
+    const index = Math.round(offsetY / REMINDER_ITEM_HEIGHT);
+    const safeIndex = Math.min(Math.max(index, 0), options.length - 1);
+    const nextValue = options[safeIndex];
+    if (nextValue !== internalValue) {
+      setInternalValue(nextValue);
+      onChange(nextValue);
+    }
+  };
+
+  const renderItem = ({ item }: ListRenderItemInfo<string>) => {
+    const isActive = item === internalValue;
+    return (
+      <View style={[styles.reminderWheelItem, isActive && styles.reminderWheelItemActive]}>
+        <Text style={[styles.reminderWheelText, isActive && styles.reminderWheelTextActive]}>{item}</Text>
+      </View>
+    );
+  };
+
+  return (
+    <View style={styles.reminderWheelContainer} accessibilityLabel={accessibilityLabel} accessible>
+      <FlatList
+        ref={listRef}
+        data={options}
+        keyExtractor={(item) => item}
+        renderItem={renderItem}
+        snapToInterval={REMINDER_ITEM_HEIGHT}
+        decelerationRate="fast"
+        showsVerticalScrollIndicator={false}
+        initialNumToRender={options.length}
+        getItemLayout={getItemLayout}
+        onMomentumScrollEnd={handleMomentumScrollEnd}
+        contentContainerStyle={styles.reminderWheelContent}
+      />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -478,6 +601,61 @@ const styles = StyleSheet.create({
   },
   modalCancelText: {
     color: '#7A6A5C',
+    fontSize: 16,
+    fontWeight: '600',
+    fontFamily: FONT_FAMILY,
+  },
+  reminderCard: {
+    width: '100%',
+    backgroundColor: '#F9E8D7',
+    borderRadius: 24,
+    padding: 24,
+    gap: 20,
+  },
+  reminderTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#1B1008',
+    textAlign: 'center',
+    fontFamily: FONT_FAMILY,
+  },
+  reminderPickerRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    columnGap: 24,
+  },
+  reminderWheelContainer: {
+    width: 72,
+    height: REMINDER_ITEM_HEIGHT * REMINDER_VISIBLE_COUNT,
+    overflow: 'hidden',
+  },
+  reminderWheelContent: {
+    paddingVertical: REMINDER_ITEM_HEIGHT,
+  },
+  reminderWheelItem: {
+    height: REMINDER_ITEM_HEIGHT,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  reminderWheelItemActive: {
+    transform: [{ scale: 1.05 }],
+  },
+  reminderWheelText: {
+    fontSize: 24,
+    color: '#2E1408',
+    fontFamily: FONT_FAMILY,
+  },
+  reminderWheelTextActive: {
+    fontWeight: '700',
+  },
+  reminderSaveButton: {
+    backgroundColor: PRIMARY_GREEN,
+    paddingVertical: 14,
+    borderRadius: 999,
+    alignItems: 'center',
+  },
+  reminderSaveText: {
+    color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
     fontFamily: FONT_FAMILY,
