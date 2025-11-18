@@ -66,7 +66,7 @@ export default function AddPrayerDetailsScreen() {
       mode: 'new',
     };
 
-    router.push({ pathname: '/dashboard', params: payload } as never);
+    router.push({ pathname: '/add-confirmation', params: payload } as never);
   };
 
   return (
