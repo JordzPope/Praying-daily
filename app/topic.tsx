@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useRouter } from 'expo-router';
-import { Platform, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Platform, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 
 import { TOPICS, TOPIC_ICON_COLOR } from '@/constants/topics';
@@ -18,7 +18,7 @@ export default function TopicSelectionScreen() {
       <SafeAreaView style={styles.safeArea}>
         <Text style={styles.heading}>Topic for your first daily prayer</Text>
 
-        <View style={styles.grid}>
+        <ScrollView style={styles.gridScroll} contentContainerStyle={styles.grid} showsVerticalScrollIndicator={false}>
           {cards.map((topic) => {
             const isSelected = topic.id === selected;
             return (
@@ -34,7 +34,7 @@ export default function TopicSelectionScreen() {
               </TouchableOpacity>
             );
           })}
-        </View>
+        </ScrollView>
 
         <TouchableOpacity
           style={styles.button}
@@ -72,8 +72,12 @@ const styles = StyleSheet.create({
     marginTop: 96,
     fontFamily: FONT_FAMILY,
   },
-  grid: {
+  gridScroll: {
     marginTop: 24,
+    flex: 1,
+  },
+  grid: {
+    paddingBottom: 32,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
