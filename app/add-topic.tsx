@@ -26,7 +26,10 @@ export default function AddTopicScreen() {
 
         <Text style={styles.heading}>Pick a Category</Text>
 
-        <ScrollView contentContainerStyle={styles.grid} showsVerticalScrollIndicator={false}>
+        <ScrollView
+          style={styles.scrollArea}
+          contentContainerStyle={styles.grid}
+          showsVerticalScrollIndicator={false}>
           {cards.map((topic) => {
             const isSelected = topic.id === selected;
             return (
@@ -99,8 +102,11 @@ const styles = StyleSheet.create({
     marginTop: 12,
     fontFamily: FONT_FAMILY,
   },
+  scrollArea: {
+    flex: 1,
+  },
   grid: {
-    paddingBottom: 24,
+    paddingBottom: 32,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
