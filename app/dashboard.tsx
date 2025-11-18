@@ -21,6 +21,7 @@ export default function DashboardScreen() {
 
   const today = useMemo(() => new Date(), []);
   const weekDays = useMemo(() => buildWeek(today), [today]);
+  const [selectedDay, setSelectedDay] = useState<Date>(today);
 
   const onboardingPrayer = useMemo(() => {
     const topicId = Array.isArray(params.topic) ? params.topic[0] : params.topic;
@@ -67,6 +68,14 @@ export default function DashboardScreen() {
     });
   };
 
+  const shouldShowPrayer = (prayer: PrayerItem) => {
+    if (prayer.days.length === 0) return true;
+    const dayLabel = selectedDay.toLocaleDateString('en-US', { weekday: 'short' }).charAt(0).toUpperCase();
+    if (prayer.days.includes('Daily')) return true;
+    if (prayer.days.includes(dayLabel)) return true;
+    return false;
+  };
+
   const renderPrayer = (prayer: PrayerItem, completed = false) => {
     const topic = getTopicById(prayer.topicId);
     return (
@@ -103,14 +112,20 @@ export default function DashboardScreen() {
           <View style={styles.weekRow}>
             {DAY_LABELS.map((label, index) => {
               const day = weekDays[index];
-              const isToday = isSameDate(day.date, today);
+              const isSelected = isSameDate(day.date, selectedDay);
               return (
-                <View key={label + day.display} style={styles.dayContainer}>
-                  <Text style={styles.dayLabel}>{label}</Text>
-                  <View style={[styles.dayCircle, isToday && styles.dayCircleActive]}>
-                    <Text style={[styles.dayNumber, isToday && styles.dayNumberActive]}>{day.date.getDate()}</Text>
+                <Pressable
+                  key={label + day.display}
+                  style={styles.dayContainer}
+                  onPress={() => setSelectedDay(day.date)}>
+                  <Text style={[
+                    styles.dayLabel,
+                    isSameDate(day.date, today) && styles.dayLabelActiveToday,
+                  ]}>{label}</Text>
+                  <View style={[styles.dayCircle, isSelected && styles.dayCircleActive]}>
+                    <Text style={[styles.dayNumber, isSelected && styles.dayNumberActive]}>{day.date.getDate()}</Text>
                   </View>
-                </View>
+                </Pressable>
               );
             })}
           </View>
@@ -119,11 +134,11 @@ export default function DashboardScreen() {
         <ScrollView style={styles.listContainer} showsVerticalScrollIndicator={false}>
           <Text style={styles.sectionTitle}>Prayer List</Text>
           <View style={styles.prayerList}>
-            {activePrayers.map((prayer) => renderPrayer(prayer))}
+            {activePrayers.filter(shouldShowPrayer).map((prayer) => renderPrayer(prayer))}
             {completedPrayers.length > 0 && (
               <View style={styles.completedSection}>
                 <Text style={styles.completedTitle}>Completed</Text>
-                {completedPrayers.map((prayer) => renderPrayer(prayer, true))}
+                {completedPrayers.filter(shouldShowPrayer).map((prayer) => renderPrayer(prayer, true))}
               </View>
             )}
           </View>
@@ -152,6 +167,13 @@ function buildWeek(today: Date) {
 
 function isSameDate(a: Date, b: Date) {
   return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+}
+
+function getHeadingLabel(selected: Date, today: Date) {
+  if (isSameDate(selected, today)) {
+    return 'Today';
+  }
+  return selected.toLocaleDateString('en-US', { weekday: 'long' });
 }
 
 function safeParseDays(serialized?: string) {
@@ -222,6 +244,9 @@ const styles = StyleSheet.create({
     color: '#7A6A5C',
     fontFamily: FONT_FAMILY,
     fontWeight: '600',
+  },
+  dayLabelActiveToday: {
+    color: PRIMARY_GREEN,
   },
   dayCircle: {
     width: 42,
