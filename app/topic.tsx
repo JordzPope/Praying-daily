@@ -3,16 +3,9 @@ import { useRouter } from 'expo-router';
 import { Platform, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 
+import { TOPICS, TOPIC_ICON_COLOR } from '@/constants/topics';
+
 const FONT_FAMILY = Platform.select({ ios: 'Helvetica', android: 'sans-serif-medium', default: 'sans-serif' });
-
-const TOPICS = [
-  { id: 'family', label: 'Family', icon: 'users' },
-  { id: 'health', label: 'Health', icon: 'heart' },
-  { id: 'work', label: 'Work', icon: 'laptop' },
-  { id: 'relationships', label: 'Relationships', icon: 'hands-helping' },
-];
-
-const ICON_COLOR = '#7A4A2B';
 
 export default function TopicSelectionScreen() {
   const router = useRouter();
@@ -35,7 +28,7 @@ export default function TopicSelectionScreen() {
                 activeOpacity={0.85}
                 onPress={() => setSelected(topic.id)}>
                 <View style={styles.iconWrapper}>
-                  <FontAwesome5 name={topic.icon as any} size={40} color={ICON_COLOR} />
+                  <FontAwesome5 name={topic.icon as any} size={40} color={TOPIC_ICON_COLOR} />
                 </View>
                 <Text style={[styles.cardLabel, isSelected && styles.cardLabelSelected]}>{topic.label}</Text>
               </TouchableOpacity>
@@ -43,7 +36,15 @@ export default function TopicSelectionScreen() {
           })}
         </View>
 
-        <TouchableOpacity style={styles.button} activeOpacity={0.9} onPress={() => router.push('/(tabs)')}>
+        <TouchableOpacity
+          style={styles.button}
+          activeOpacity={0.9}
+          onPress={() =>
+            router.push({
+              pathname: '/prayer-details',
+              params: { topic: selected },
+            } as never)
+          }>
           <Text style={styles.buttonText}>Continue</Text>
         </TouchableOpacity>
       </SafeAreaView>

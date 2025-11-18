@@ -18,6 +18,7 @@ export default function RootLayout() {
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="time" options={{ headerShown: false }} />
         <Stack.Screen name="topic" options={{ headerShown: false }} />
+        <Stack.Screen name="prayer-details" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
       </Stack>
