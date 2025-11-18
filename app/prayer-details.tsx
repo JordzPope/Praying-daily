@@ -61,7 +61,14 @@ export default function PrayerDetailsScreen() {
   };
 
   const handleContinue = () => {
-    router.push('/');
+    const payload = {
+      topic: topic.id,
+      name: prayerName || `${topic.label} Prayer`,
+      repeat: repeatDaily ? 'daily' : 'custom',
+      days: JSON.stringify(Array.from(selectedDays)),
+      reminder: reminderEnabled ? '1' : '0',
+    };
+    router.push({ pathname: '/dashboard', params: payload } as never);
   };
 
   return (
