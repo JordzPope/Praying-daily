@@ -8,52 +8,38 @@ export default function IntroScreen() {
   const router = useRouter();
 
   return (
-    <View style={styles.root}>
-      <View style={styles.topGlow} />
-      <SafeAreaView style={styles.safeArea}>
-        <View style={styles.content}>
-          <View style={styles.logoWrapper}>
-            <FontAwesome5 name="praying-hands" size={120} color="#3A1F0F" />
-          </View>
-          <Text style={styles.title}>Talk with Jesus</Text>
-          <Text style={styles.subtitle}>
-            Set a rhythm, get nudges, and be pulled back to prayer in minutes a day.
-          </Text>
+    <SafeAreaView style={styles.root}>
+      <View style={styles.content}>
+        <View style={styles.logoWrapper}>
+          <FontAwesome5 name="praying-hands" size={120} color="#3A1F0F" />
         </View>
+        <Text style={styles.title}>Talk with Jesus</Text>
+        <Text style={styles.subtitle}>
+          Set a rhythm, get nudges, and be pulled back to prayer in minutes a day.
+        </Text>
         <TouchableOpacity
           activeOpacity={0.9}
           style={styles.button}
           onPress={() => router.push('/time')}>
           <Text style={styles.buttonText}>Continue</Text>
         </TouchableOpacity>
-      </SafeAreaView>
-    </View>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: '#BA7B49',
-  },
-  topGlow: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    height: '70%',
-    backgroundColor: '#F0C796',
-    opacity: 0.55,
-  },
-  safeArea: {
-    flex: 1,
+    backgroundColor: '#F5D7B1',
     paddingHorizontal: 24,
-    paddingBottom: 36,
-    justifyContent: 'space-between',
+    paddingVertical: 48,
   },
   content: {
-    marginTop: 32,
+    flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
+    gap: 16,
   },
   logoWrapper: {
     width: 200,
@@ -61,7 +47,6 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 32,
     backgroundColor: 'rgba(255, 255, 255, 0.18)',
   },
   title: {
@@ -75,7 +60,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 24,
     textAlign: 'center',
-    marginTop: 16,
     color: '#2E1408',
     opacity: 0.85,
     fontFamily: FONT_FAMILY,
@@ -85,6 +69,8 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     borderRadius: 999,
     alignItems: 'center',
+    alignSelf: 'stretch',
+    marginTop: 8,
   },
   buttonText: {
     color: '#FFFFFF',
