@@ -3,20 +3,11 @@ import { Alert, Platform, Pressable, SafeAreaView, StyleSheet, Text, TextInput, 
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 
+import { ALL_DAY_IDS, DAYS, DayId, dayIdsToLabels, filterDayIds, isFullWeek, labelsToDayIds } from '@/constants/days';
 import { TOPIC_ICON_COLOR, getTopicById, TopicId } from '@/constants/topics';
 
 const FONT_FAMILY = Platform.select({ ios: 'Helvetica', android: 'sans-serif-medium', default: 'sans-serif' });
 const PRIMARY_GREEN = '#3F8A3D';
-
-const DAYS = [
-  { id: 'mon', label: 'M' },
-  { id: 'tue', label: 'T' },
-  { id: 'wed', label: 'W' },
-  { id: 'thu', label: 'T' },
-  { id: 'fri', label: 'F' },
-  { id: 'sat', label: 'S' },
-  { id: 'sun', label: 'S' },
-] as const;
 
 type Params = {
   id?: string;
@@ -38,12 +29,18 @@ export default function EditPrayerScreen() {
   const dayIdsParam = Array.isArray(params.dayIds) ? params.dayIds[0] : params.dayIds;
   const idParam = Array.isArray(params.id) ? params.id[0] : params.id;
 
-  const parsedDayIds = useMemo(() => safeParseArray(dayIdsParam), [dayIdsParam]);
-  const parsedDayLetters = useMemo(() => safeParseArray(dayLettersParam), [dayLettersParam]);
+  const parsedDayIds = useMemo<DayId[]>(() => {
+    const ids = filterDayIds(safeParseArray(dayIdsParam));
+    if (ids.length > 0) {
+      return ids;
+    }
+    const letters = safeParseArray(dayLettersParam);
+    return labelsToDayIds(letters);
+  }, [dayIdsParam, dayLettersParam]);
 
   const [prayerName, setPrayerName] = useState(nameParam ?? '');
-  const [repeatDaily, setRepeatDaily] = useState(parsedDayIds.length === 7);
-  const [selectedDays, setSelectedDays] = useState<Set<string>>(new Set(parsedDayIds));
+  const [repeatDaily, setRepeatDaily] = useState(isFullWeek(parsedDayIds));
+  const [selectedDays, setSelectedDays] = useState<Set<DayId>>(new Set(parsedDayIds));
   const [reminderEnabled, setReminderEnabled] = useState(reminderParam === '1');
 
   const dayStates = useMemo(
@@ -51,7 +48,7 @@ export default function EditPrayerScreen() {
     [selectedDays],
   );
 
-  const toggleDay = (dayId: string) => {
+  const toggleDay = (dayId: DayId) => {
     setSelectedDays((prev) => {
       const next = new Set(prev);
       if (next.has(dayId)) {
@@ -66,7 +63,7 @@ export default function EditPrayerScreen() {
   const handleRepeatToggle = () => {
     setRepeatDaily((prev) => {
       const nextState = !prev;
-      setSelectedDays(nextState ? new Set(DAYS.map((day) => day.id)) : new Set());
+      setSelectedDays(nextState ? new Set<DayId>(ALL_DAY_IDS) : new Set());
       return nextState;
     });
   };
@@ -83,10 +80,7 @@ export default function EditPrayerScreen() {
 
   const handleSave = () => {
     const selectedDayIds = Array.from(selectedDays);
-    const dayLetters = selectedDayIds.map((id) => {
-      const match = DAYS.find((day) => day.id === id);
-      return match ? match.label : id.charAt(0).toUpperCase();
-    });
+    const dayLetters = dayIdsToLabels(selectedDayIds);
 
     router.push({
       pathname: '/dashboard',
@@ -95,7 +89,7 @@ export default function EditPrayerScreen() {
         topic: topic.id,
         name: prayerName || `${topic.label} Prayer`,
         reminder: reminderEnabled ? '1' : '0',
-        days: JSON.stringify(dayLetters.length > 0 ? dayLetters : parsedDayLetters),
+        days: JSON.stringify(dayLetters),
         dayIds: JSON.stringify(selectedDayIds),
         mode: 'edit',
       },
@@ -172,7 +166,6 @@ function safeParseArray(serialized?: string) {
 }
 
 const styles = StyleSheet.create({
-  ...StyleSheet.create({}),
   root: {
     flex: 1,
     backgroundColor: '#F5D7B1',

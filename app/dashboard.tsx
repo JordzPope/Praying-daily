@@ -3,6 +3,7 @@ import { Platform, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View, 
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { FontAwesome5 } from '@expo/vector-icons';
 
+import { dayIdsToLabels, filterDayIds, labelsToDayIds } from '@/constants/days';
 import { TOPIC_ICON_COLOR, TOPICS, TopicId, getTopicById } from '@/constants/topics';
 
 const FONT_FAMILY = Platform.select({ ios: 'Helvetica', android: 'sans-serif-medium', default: 'sans-serif' });
@@ -19,6 +20,7 @@ export default function DashboardScreen() {
     days?: string;
     reminder?: string;
     id?: string;
+    dayIds?: string;
     mode?: 'new' | 'edit';
   }>();
 
@@ -33,15 +35,20 @@ export default function DashboardScreen() {
     const nameParam = Array.isArray(params.name) ? params.name[0] : params.name;
     const reminderParam = Array.isArray(params.reminder) ? params.reminder[0] : params.reminder;
     const dayParam = Array.isArray(params.days) ? params.days[0] : params.days;
+    const dayIdsParam = Array.isArray(params.dayIds) ? params.dayIds[0] : params.dayIds;
     const idParam = Array.isArray(params.id) ? params.id[0] : params.id;
     const modeParam = Array.isArray(params.mode) ? params.mode[0] : params.mode;
+
+    const parsedDayIds = filterDayIds(safeParseStringArray(dayIdsParam));
+    const parsedDayLetters = safeParseStringArray(dayParam);
+    const resolvedDayLabels = parsedDayIds.length > 0 ? dayIdsToLabels(parsedDayIds) : parsedDayLetters;
 
     return {
       id: idParam ?? `prayer-${Date.now()}`,
       topicId: topic.id,
       name: nameParam && nameParam.length > 0 ? nameParam : `${topic.label} Prayer`,
       reminder: reminderParam === '1',
-      days: safeParseDays(dayParam),
+      days: resolvedDayLabels,
       completed: false,
       mode: modeParam ?? 'new',
     } as PrayerItem;
@@ -102,6 +109,7 @@ export default function DashboardScreen() {
   const handleEdit = () => {
     setOptionsVisible(false);
     if (selectedPrayer) {
+      const derivedDayIds = labelsToDayIds(selectedPrayer.days);
       router.push({
         pathname: '/edit-prayer',
         params: {
@@ -110,6 +118,7 @@ export default function DashboardScreen() {
           name: selectedPrayer.name,
           reminder: selectedPrayer.reminder ? '1' : '0',
           days: JSON.stringify(selectedPrayer.days),
+          dayIds: JSON.stringify(derivedDayIds),
         },
       } as never);
     }
@@ -242,7 +251,7 @@ function getHeadingLabel(selected: Date, today: Date) {
   return selected.toLocaleDateString('en-US', { weekday: 'long' });
 }
 
-function safeParseDays(serialized?: string) {
+function safeParseStringArray(serialized?: string) {
   if (!serialized) return [];
   try {
     const parsed = JSON.parse(serialized);

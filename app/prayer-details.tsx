@@ -3,20 +3,11 @@ import { Alert, Platform, Pressable, SafeAreaView, StyleSheet, Text, TextInput, 
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 
+import { DAYS, DayId, dayIdsToLabels } from '@/constants/days';
 import { TOPIC_ICON_COLOR, getTopicById, TopicId } from '@/constants/topics';
 
 const FONT_FAMILY = Platform.select({ ios: 'Helvetica', android: 'sans-serif-medium', default: 'sans-serif' });
 const PRIMARY_GREEN = '#3F8A3D';
-
-const DAYS = [
-  { id: 'mon', label: 'M' },
-  { id: 'tue', label: 'T' },
-  { id: 'wed', label: 'W' },
-  { id: 'thu', label: 'T' },
-  { id: 'fri', label: 'F' },
-  { id: 'sat', label: 'S' },
-  { id: 'sun', label: 'S' },
-] as const;
 
 export default function PrayerDetailsScreen() {
   const router = useRouter();
@@ -25,12 +16,12 @@ export default function PrayerDetailsScreen() {
 
   const [prayerName, setPrayerName] = useState('');
   const [repeatDaily, setRepeatDaily] = useState(false);
-  const [selectedDays, setSelectedDays] = useState<Set<string>>(new Set());
+  const [selectedDays, setSelectedDays] = useState<Set<DayId>>(new Set());
   const [reminderEnabled, setReminderEnabled] = useState(false);
 
   const dayStates = useMemo(() => DAYS.map((day) => ({ ...day, active: selectedDays.has(day.id) })), [selectedDays]);
 
-  const toggleDay = (dayId: string) => {
+  const toggleDay = (dayId: DayId) => {
     setSelectedDays((prev) => {
       const next = new Set(prev);
       if (next.has(dayId)) {
@@ -62,10 +53,7 @@ export default function PrayerDetailsScreen() {
 
   const handleContinue = () => {
     const selectedDayIds = Array.from(selectedDays);
-    const dayLetters = selectedDayIds.map((id) => {
-      const match = DAYS.find((day) => day.id === id);
-      return match ? match.label : id.charAt(0).toUpperCase();
-    });
+    const dayLetters = dayIdsToLabels(selectedDayIds);
 
     const payload = {
       id: `prayer-${Date.now()}`,

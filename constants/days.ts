@@ -10,7 +10,8 @@ export const DAYS = [
 
 export type DayId = (typeof DAYS)[number]['id'];
 
-export const ALL_DAY_IDS = DAYS.map((day) => day.id);
+export const ALL_DAY_IDS: DayId[] = DAYS.map((day) => day.id);
+export const WEEKDAY_IDS: DayId[] = ['mon', 'tue', 'wed', 'thu', 'fri'];
 
 export function dayIdToLabel(id: DayId) {
   const day = DAYS.find((entry) => entry.id === id);
@@ -22,13 +23,34 @@ export function dayIdsToLabels(ids: DayId[]) {
 }
 
 export function labelsToDayIds(labels: string[]) {
+  if (labels.length === 0) return [];
   const normalized = labels.map((label) => label.trim().toUpperCase());
-  return normalized
-    .map((label) => {
-      const match = DAYS.find((day) => day.label.toUpperCase() === label);
-      return match?.id;
-    })
-    .filter((maybeId): maybeId is DayId => Boolean(maybeId));
+  if (normalized.includes('DAILY')) {
+    return [...ALL_DAY_IDS];
+  }
+
+  const used = new Set<DayId>();
+  const result: DayId[] = [];
+
+  normalized.forEach((label) => {
+    if (label === 'WEEKDAYS') {
+      WEEKDAY_IDS.forEach((dayId) => {
+        if (!used.has(dayId)) {
+          used.add(dayId);
+          result.push(dayId);
+        }
+      });
+      return;
+    }
+
+    const candidate = DAYS.find((day) => day.label.toUpperCase() === label && !used.has(day.id));
+    if (candidate) {
+      used.add(candidate.id);
+      result.push(candidate.id);
+    }
+  });
+
+  return result;
 }
 
 export function dayIdFromDate(date: Date): DayId | undefined {
@@ -38,5 +60,16 @@ export function dayIdFromDate(date: Date): DayId | undefined {
 }
 
 export function isFullWeek(ids: DayId[]) {
-  return ids.length === DAYS.length;
+  return ids.length === ALL_DAY_IDS.length;
+}
+
+export function isDayId(value: string): value is DayId {
+  return (ALL_DAY_IDS as readonly string[]).includes(value);
+}
+
+export function filterDayIds(values?: string[]) {
+  if (!values || values.length === 0) {
+    return [];
+  }
+  return values.filter((value): value is DayId => isDayId(value));
 }
