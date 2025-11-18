@@ -203,7 +203,10 @@ export default function DashboardScreen() {
         </ScrollView>
       </SafeAreaView>
 
-      <Pressable style={styles.addButton} accessibilityLabel="Add prayer">
+      <Pressable
+        style={styles.addButton}
+        accessibilityLabel="Add prayer"
+        onPress={() => router.push('/add-topic')}>
         <FontAwesome5 name="plus" size={20} color="#FFFFFF" />
       </Pressable>
 

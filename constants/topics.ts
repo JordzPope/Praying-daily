@@ -1,4 +1,4 @@
-export type TopicId = 'family' | 'health' | 'work' | 'relationships';
+export type TopicId = 'family' | 'health' | 'work' | 'relationships' | 'future-plans' | 'future-goals' | 'other-person' | 'other-situation';
 
 export type TopicOption = {
   id: TopicId;
@@ -13,6 +13,10 @@ export const TOPICS: TopicOption[] = [
   { id: 'health', label: 'Health', icon: 'heart' },
   { id: 'work', label: 'Work', icon: 'laptop' },
   { id: 'relationships', label: 'Relationships', icon: 'hands-helping' },
+  { id: 'future-plans', label: 'Future Plans', icon: 'arrow-circle-right' },
+  { id: 'future-goals', label: 'Future Goals', icon: 'chart-line' },
+  { id: 'other-person', label: 'Someone Else', icon: 'user' },
+  { id: 'other-situation', label: 'Something Else', icon: 'praying-hands' },
 ];
 
 export function getTopicById(id?: string): TopicOption {
