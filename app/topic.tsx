@@ -6,11 +6,13 @@ import { FontAwesome5 } from '@expo/vector-icons';
 const FONT_FAMILY = Platform.select({ ios: 'Helvetica', android: 'sans-serif-medium', default: 'sans-serif' });
 
 const TOPICS = [
-  { id: 'family', label: 'Family', icon: 'users', accent: '#C27059' },
-  { id: 'health', label: 'Health', icon: 'heart', accent: '#B2564B' },
-  { id: 'work', label: 'Work', icon: 'laptop', accent: '#9B6A38' },
-  { id: 'relationships', label: 'Relationships', icon: 'hands-helping', accent: '#7C532C' },
+  { id: 'family', label: 'Family', icon: 'users' },
+  { id: 'health', label: 'Health', icon: 'heart' },
+  { id: 'work', label: 'Work', icon: 'laptop' },
+  { id: 'relationships', label: 'Relationships', icon: 'hands-helping' },
 ];
+
+const ICON_COLOR = '#7A4A2B';
 
 export default function TopicSelectionScreen() {
   const router = useRouter();
@@ -32,8 +34,8 @@ export default function TopicSelectionScreen() {
                 style={[styles.card, isSelected && styles.cardSelected]}
                 activeOpacity={0.85}
                 onPress={() => setSelected(topic.id)}>
-                <View style={[styles.iconWrapper, { backgroundColor: `${topic.accent}22` }]}> 
-                  <FontAwesome5 name={topic.icon as any} size={40} color={topic.accent} />
+                <View style={styles.iconWrapper}>
+                  <FontAwesome5 name={topic.icon as any} size={40} color={ICON_COLOR} />
                 </View>
                 <Text style={[styles.cardLabel, isSelected && styles.cardLabelSelected]}>{topic.label}</Text>
               </TouchableOpacity>
@@ -66,11 +68,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#1B1008',
     fontWeight: '700',
-    marginTop: 32,
+    marginTop: 96,
     fontFamily: FONT_FAMILY,
   },
   grid: {
-    marginTop: 48,
+    marginTop: 24,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
@@ -101,6 +103,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 12,
+    backgroundColor: '#F0DED0',
   },
   cardLabel: {
     fontSize: 18,
