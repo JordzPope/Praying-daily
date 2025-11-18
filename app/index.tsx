@@ -63,13 +63,15 @@ const styles = StyleSheet.create({
     color: '#2E1408',
     opacity: 0.85,
     fontFamily: FONT_FAMILY,
+    paddingHorizontal: 16,
   },
   button: {
     backgroundColor: '#3F8A3D',
     paddingVertical: 16,
     borderRadius: 999,
     alignItems: 'center',
-    alignSelf: 'stretch',
+    alignSelf: 'center',
+    width: '85%',
     marginTop: 8,
   },
   buttonText: {

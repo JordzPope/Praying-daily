@@ -55,7 +55,7 @@ export default function TopicSelectionScreen() {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: '#EBC5A4',
+    backgroundColor: '#F5D7B1',
   },
   safeArea: {
     flex: 1,
@@ -120,6 +120,8 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     borderRadius: 999,
     alignItems: 'center',
+    alignSelf: 'center',
+    width: '85%',
   },
   buttonText: {
     color: '#FFFFFF',

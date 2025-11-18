@@ -126,7 +126,7 @@ function Checkbox({ checked, onToggle }: { checked: boolean; onToggle: () => voi
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: '#EBC5A4',
+    backgroundColor: '#F5D7B1',
   },
   safeArea: {
     flex: 1,
@@ -233,6 +233,8 @@ const styles = StyleSheet.create({
     paddingVertical: 18,
     borderRadius: 999,
     alignItems: 'center',
+    width: '85%',
+    alignSelf: 'center',
   },
   buttonText: {
     color: '#FFFFFF',
