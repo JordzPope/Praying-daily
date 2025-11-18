@@ -294,6 +294,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    paddingHorizontal: 20,
   },
   todayLabel: {
     fontSize: 28,
@@ -354,6 +355,8 @@ const styles = StyleSheet.create({
     color: '#1B1008',
     marginBottom: 12,
     fontFamily: FONT_FAMILY,
+    paddingLeft: 32,
+    paddingRight: 12,
   },
   prayerList: {
     gap: 16,
@@ -402,8 +405,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   checkboxChecked: {
-    backgroundColor: '#FFFFFF',
-    borderColor: '#FFFFFF',
+    backgroundColor: PRIMARY_GREEN,
+    borderColor: PRIMARY_GREEN,
   },
   completedSection: {
     gap: 12,
