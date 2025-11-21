@@ -18,9 +18,10 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { FontAwesome5 } from '@expo/vector-icons';
 
 import { dayIdsToLabels, filterDayIds, labelsToDayIds } from '@/constants/days';
-import { TOPIC_ICON_COLOR, TOPICS, TopicId, getTopicById } from '@/constants/topics';
+import { TOPIC_ICON_COLOR, TopicId, getTopicById } from '@/constants/topics';
 import { scheduleDailyReminder } from '@/lib/reminder-notifications';
 import { getReminderEnabledSync, getReminderTimeSync, hydrateReminderPreferences, setReminderTime } from '@/state/reminder-preference';
+import { getPrayersSync, hydratePrayers, savePrayers, StoredPrayer } from '@/state/prayer-storage';
 
 const FONT_FAMILY = Platform.select({ ios: 'Helvetica', android: 'sans-serif-medium', default: 'sans-serif' });
 const PRIMARY_GREEN = '#3F8A3D';
@@ -40,6 +41,8 @@ export default function DashboardScreen() {
     id?: string;
     dayIds?: string;
     mode?: 'new' | 'edit';
+    topicLabel?: string;
+    completed?: string;
   }>();
 
   const today = useMemo(() => new Date(), []);
@@ -56,6 +59,8 @@ export default function DashboardScreen() {
     const dayIdsParam = Array.isArray(params.dayIds) ? params.dayIds[0] : params.dayIds;
     const idParam = Array.isArray(params.id) ? params.id[0] : params.id;
     const modeParam = Array.isArray(params.mode) ? params.mode[0] : params.mode;
+    const topicLabelParam = Array.isArray(params.topicLabel) ? params.topicLabel[0] : params.topicLabel;
+    const completedParam = Array.isArray(params.completed) ? params.completed[0] : params.completed;
 
     const parsedDayIds = filterDayIds(safeParseStringArray(dayIdsParam));
     const parsedDayLetters = safeParseStringArray(dayParam);
@@ -64,16 +69,16 @@ export default function DashboardScreen() {
     return {
       id: idParam ?? `prayer-${Date.now()}`,
       topicId: topic.id,
+      topicLabel: topicLabelParam ?? topic.label,
       name: nameParam && nameParam.length > 0 ? nameParam : `${topic.label} Prayer`,
       reminder: reminderParam === '1',
       days: resolvedDayLabels,
-      completed: false,
+      completed: completedParam === '1',
       mode: modeParam ?? 'new',
     } as PrayerItem;
   }, [params]);
 
-  const [activePrayers, setActivePrayers] = useState<PrayerItem[]>(samplePrayers);
-  const [completedPrayers, setCompletedPrayers] = useState<PrayerItem[]>([]);
+  const [prayers, setPrayers] = useState<PrayerItem[]>(() => getPrayersSync() as PrayerItem[]);
   const initialReminderTime = getReminderTimeSync();
   const [optionsVisible, setOptionsVisible] = useState(false);
   const [selectedPrayer, setSelectedPrayer] = useState<PrayerItem | null>(null);
@@ -84,6 +89,9 @@ export default function DashboardScreen() {
   const reminderHourOptions = useMemo(() => Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0')), []);
   const reminderMinuteOptions = useMemo(() => Array.from({ length: 60 }, (_, i) => i.toString().padStart(2, '0')), []);
 
+  const activePrayers = useMemo(() => prayers.filter((prayer) => !prayer.completed), [prayers]);
+  const completedPrayers = useMemo(() => prayers.filter((prayer) => prayer.completed), [prayers]);
+
   useEffect(() => {
     hydrateReminderPreferences().then(({ time }) => {
       const [hour, minute] = time.split(':');
@@ -93,37 +101,38 @@ export default function DashboardScreen() {
   }, []);
 
   useEffect(() => {
+    hydratePrayers().then((stored) => {
+      if (stored.length > 0) {
+        setPrayers(stored);
+        return;
+      }
+      setPrayers(samplePrayers);
+      savePrayers(samplePrayers);
+    });
+  }, []);
+
+  const updatePrayers = useCallback((updater: (current: PrayerItem[]) => PrayerItem[]) => {
+    setPrayers((current) => {
+      const next = updater(current);
+      savePrayers(next);
+      return next;
+    });
+  }, []);
+
+  useEffect(() => {
     if (!incomingPrayer) return;
-    if (incomingPrayer.mode === 'edit') {
-      setActivePrayers((current) => {
-        const exists = current.some((p) => p.id === incomingPrayer.id);
-        if (exists) {
-          return current.map((p) => (p.id === incomingPrayer.id ? { ...incomingPrayer, mode: undefined } : p));
-        }
-        return current;
-      });
-      setCompletedPrayers((current) => current.map((p) => (p.id === incomingPrayer.id ? { ...incomingPrayer, mode: undefined } : p)));
-    } else {
-      setActivePrayers((current) => [{ ...incomingPrayer, mode: undefined }, ...current.filter((p) => p.id !== incomingPrayer.id)]);
-    }
-  }, [incomingPrayer]);
+    updatePrayers((current) => {
+      const normalized = { ...incomingPrayer, mode: undefined };
+      if (incomingPrayer.mode === 'edit') {
+        return current.map((p) => (p.id === incomingPrayer.id ? normalized : p));
+      }
+      const filtered = current.filter((p) => p.id !== incomingPrayer.id);
+      return [normalized, ...filtered];
+    });
+  }, [incomingPrayer, updatePrayers]);
 
   const toggleComplete = (prayer: PrayerItem) => {
-    setActivePrayers((current) => {
-      if (current.find((p) => p.id === prayer.id)) {
-        setCompletedPrayers((done) => [{ ...prayer, completed: true }, ...done]);
-        return current.filter((p) => p.id !== prayer.id);
-      }
-      return current;
-    });
-
-    setCompletedPrayers((done) => {
-      if (done.find((p) => p.id === prayer.id)) {
-        setActivePrayers((current) => [...current, { ...prayer, completed: false }]);
-        return done.filter((p) => p.id !== prayer.id);
-      }
-      return done;
-    });
+    updatePrayers((current) => current.map((p) => (p.id === prayer.id ? { ...p, completed: !p.completed } : p)));
   };
 
   const shouldShowPrayer = (prayer: PrayerItem) => {
@@ -152,6 +161,8 @@ export default function DashboardScreen() {
           reminder: selectedPrayer.reminder ? '1' : '0',
           days: JSON.stringify(selectedPrayer.days),
           dayIds: JSON.stringify(derivedDayIds),
+          completed: selectedPrayer.completed ? '1' : '0',
+          topicLabel: selectedPrayer.topicLabel,
         },
       } as never);
     }
@@ -159,10 +170,10 @@ export default function DashboardScreen() {
 
   const handleDelete = () => {
     if (selectedPrayer) {
-      setActivePrayers((current) => current.filter((p) => p.id !== selectedPrayer.id));
-      setCompletedPrayers((done) => done.filter((p) => p.id !== selectedPrayer.id));
+      updatePrayers((current) => current.filter((p) => p.id !== selectedPrayer.id));
     }
     setOptionsVisible(false);
+    setSelectedPrayer(null);
   };
 
   const renderPrayer = (prayer: PrayerItem, completed = false) => {
@@ -348,18 +359,12 @@ function safeParseStringArray(serialized?: string) {
 }
 
 const samplePrayers: PrayerItem[] = [
-  { id: 'p1', topicId: 'family', name: 'Family Crisis', days: ['M', 'T', 'W'], reminder: true, completed: false },
-  { id: 'p2', topicId: 'health', name: 'Health Concern', days: ['Daily'], reminder: true, completed: false },
-  { id: 'p3', topicId: 'work', name: 'Promotion', days: ['Weekdays'], reminder: false, completed: false },
+  { id: 'p1', topicId: 'family', topicLabel: 'Family', name: 'Family Crisis', days: ['M', 'T', 'W'], reminder: true, completed: false },
+  { id: 'p2', topicId: 'health', topicLabel: 'Health', name: 'Health Concern', days: ['Daily'], reminder: true, completed: false },
+  { id: 'p3', topicId: 'work', topicLabel: 'Work', name: 'Promotion', days: ['Weekdays'], reminder: false, completed: false },
 ];
 
-interface PrayerItem {
-  id: string;
-  topicId: TopicId;
-  name: string;
-  days: string[];
-  reminder: boolean;
-  completed: boolean;
+interface PrayerItem extends StoredPrayer {
   mode?: 'new' | 'edit';
 }
 

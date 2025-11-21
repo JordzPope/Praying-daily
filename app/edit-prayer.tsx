@@ -105,10 +105,12 @@ export default function EditPrayerScreen() {
       params: {
         id: idParam ?? `prayer-${Date.now()}`,
         topic: topic.id,
+        topicLabel: topic.label,
         name: prayerName || `${topic.label} Prayer`,
         reminder: reminderEnabled ? '1' : '0',
         days: JSON.stringify(dayLetters),
         dayIds: JSON.stringify(selectedDayIds),
+        completed: reminderEnabled ? '0' : (selectedDays.size === 0 ? '0' : '0'),
         mode: 'edit',
       },
     } as never);

@@ -58,11 +58,13 @@ export default function PrayerDetailsScreen() {
     const payload = {
       id: `prayer-${Date.now()}`,
       topic: topic.id,
+      topicLabel: topic.label,
       name: prayerName || `${topic.label} Prayer`,
       repeat: repeatDaily ? 'daily' : 'custom',
       days: JSON.stringify(dayLetters),
       dayIds: JSON.stringify(selectedDayIds),
       reminder: reminderEnabled ? '1' : '0',
+      completed: '0',
       mode: 'new',
     };
     router.push({ pathname: '/dashboard', params: payload } as never);
