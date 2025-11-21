@@ -13,10 +13,8 @@ export default function IntroScreen() {
         <View style={styles.logoWrapper}>
           <FontAwesome5 name="praying-hands" size={120} color="#3A1F0F" />
         </View>
-        <Text style={styles.title}>Talk with Jesus</Text>
-        <Text style={styles.subtitle}>
-          Set a rhythm, get nudges, and be pulled back to prayer in minutes a day.
-        </Text>
+        <Text style={styles.title}>Prayer Daily</Text>
+        <Text style={styles.subtitle}>Don't let another prayer slip through the cracks.</Text>
         <TouchableOpacity
           activeOpacity={0.9}
           style={styles.button}
