@@ -205,7 +205,6 @@ export default function DashboardScreen() {
     <View style={styles.root}>
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.headerRow}>
-          <FontAwesome5 name="bars" size={18} color="#1B1008" />
           <Text style={styles.todayLabel}>Today</Text>
           <Pressable accessibilityLabel="Change reminder time" onPress={() => setReminderVisible(true)}>
             <FontAwesome5 name="bell" size={18} color="#1B1008" />
