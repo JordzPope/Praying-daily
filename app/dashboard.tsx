@@ -19,8 +19,14 @@ import { FontAwesome5 } from '@expo/vector-icons';
 
 import { dayIdsToLabels, filterDayIds, labelsToDayIds } from '@/constants/days';
 import { TOPIC_ICON_COLOR, TopicId, getTopicById } from '@/constants/topics';
-import { scheduleDailyReminder } from '@/lib/reminder-notifications';
-import { getReminderEnabledSync, getReminderTimeSync, hydrateReminderPreferences, setReminderTime } from '@/state/reminder-preference';
+import { cancelScheduledReminders, scheduleDailyReminder } from '@/lib/reminder-notifications';
+import {
+  getReminderEnabledSync,
+  getReminderTimeSync,
+  hydrateReminderPreferences,
+  setReminderEnabledPreference,
+  setReminderTime,
+} from '@/state/reminder-preference';
 import { getPrayersSync, hydratePrayers, savePrayers, StoredPrayer } from '@/state/prayer-storage';
 
 const FONT_FAMILY = Platform.select({ ios: 'Helvetica', android: 'sans-serif-medium', default: 'sans-serif' });
@@ -83,6 +89,7 @@ export default function DashboardScreen() {
   const [optionsVisible, setOptionsVisible] = useState(false);
   const [selectedPrayer, setSelectedPrayer] = useState<PrayerItem | null>(null);
   const [reminderVisible, setReminderVisible] = useState(false);
+  const [reminderEnabled, setReminderEnabled] = useState(getReminderEnabledSync());
   const [reminderHour, setReminderHour] = useState(initialReminderTime.split(':')[0]);
   const [reminderMinute, setReminderMinute] = useState(initialReminderTime.split(':')[1]);
 
@@ -93,10 +100,11 @@ export default function DashboardScreen() {
   const completedPrayers = useMemo(() => prayers.filter((prayer) => prayer.completed), [prayers]);
 
   useEffect(() => {
-    hydrateReminderPreferences().then(({ time }) => {
+    hydrateReminderPreferences().then(({ time, enabled }) => {
       const [hour, minute] = time.split(':');
       setReminderHour(hour);
       setReminderMinute(minute);
+      setReminderEnabled(enabled);
     });
   }, []);
 
@@ -174,6 +182,23 @@ export default function DashboardScreen() {
     }
     setOptionsVisible(false);
     setSelectedPrayer(null);
+  };
+
+  const handleReminderToggle = async () => {
+    const next = !reminderEnabled;
+    if (next) {
+      const scheduled = await scheduleDailyReminder(`${reminderHour}:${reminderMinute}`);
+      if (!scheduled) {
+        Alert.alert('Notifications disabled', 'Enable notifications in your device settings to receive reminders.');
+        return;
+      }
+      await setReminderEnabledPreference(true);
+      setReminderEnabled(true);
+    } else {
+      await cancelScheduledReminders();
+      await setReminderEnabledPreference(false);
+      setReminderEnabled(false);
+    }
   };
 
   const renderPrayer = (prayer: PrayerItem, completed = false) => {
@@ -280,6 +305,15 @@ export default function DashboardScreen() {
         <View style={styles.modalBackdrop}>
           <View style={styles.reminderCard}>
             <Text style={styles.reminderTitle}>Change the time you pray</Text>
+            <View style={styles.reminderToggleRow}>
+              <Text style={styles.reminderToggleLabel}>Reminders</Text>
+              <Pressable
+                accessibilityLabel={reminderEnabled ? 'Disable reminders' : 'Enable reminders'}
+                onPress={handleReminderToggle}
+                style={[styles.toggle, reminderEnabled && styles.toggleActive]}>
+                <View style={[styles.toggleThumb, reminderEnabled && styles.toggleThumbActive]} />
+              </Pressable>
+            </View>
             <View style={styles.reminderPickerRow}>
               <ReminderWheel
                 options={reminderHourOptions}
@@ -300,7 +334,7 @@ export default function DashboardScreen() {
               onPress={async () => {
                 const nextTime = `${reminderHour}:${reminderMinute}`;
                 await setReminderTime(nextTime);
-                if (getReminderEnabledSync()) {
+                if (reminderEnabled) {
                   const scheduled = await scheduleDailyReminder(nextTime);
                   if (!scheduled) {
                     Alert.alert('Notifications disabled', 'Enable notifications in your device settings to receive reminders.');
@@ -648,6 +682,38 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     columnGap: 24,
+  },
+  reminderToggleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  reminderToggleLabel: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#1B1008',
+    fontFamily: FONT_FAMILY,
+  },
+  toggle: {
+    width: 46,
+    height: 26,
+    borderRadius: 999,
+    backgroundColor: 'rgba(0,0,0,0.15)',
+    padding: 3,
+    alignItems: 'flex-start',
+  },
+  toggleActive: {
+    backgroundColor: PRIMARY_GREEN,
+    alignItems: 'flex-end',
+  },
+  toggleThumb: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: '#FFFFFF',
+  },
+  toggleThumbActive: {
+    backgroundColor: '#FFFFFF',
   },
   reminderWheelContainer: {
     width: 72,
