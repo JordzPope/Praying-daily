@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Praying-Daily",
-    "slug": "Praying-Daily",
+    "slug": "praying-daily",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -43,6 +43,13 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "80c77e3a-a655-4668-a64e-821b1397fe5c"
+      }
+    },
+    "owner": "jordzpope"
   }
 }
