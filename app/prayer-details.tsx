@@ -5,6 +5,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 
 import { DAYS, DayId, dayIdsToLabels } from '@/constants/days';
 import { TOPIC_ICON_COLOR, getTopicById, TopicId } from '@/constants/topics';
+import { hydratePrayers, savePrayers, StoredPrayer } from '@/state/prayer-storage';
 
 const FONT_FAMILY = Platform.select({ ios: 'Helvetica', android: 'sans-serif-medium', default: 'sans-serif' });
 const PRIMARY_GREEN = '#3F8A3D';
@@ -51,7 +52,7 @@ export default function PrayerDetailsScreen() {
     });
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     const selectedDayIds = Array.from(selectedDays);
     const dayLetters = dayIdsToLabels(selectedDayIds);
 
@@ -67,6 +68,21 @@ export default function PrayerDetailsScreen() {
       completed: '0',
       mode: 'new',
     };
+
+    const newPrayer: StoredPrayer = {
+      id: payload.id,
+      topicId: topic.id,
+      topicLabel: topic.label,
+      name: payload.name,
+      days: dayLetters,
+      reminder: reminderEnabled,
+      completed: false,
+    };
+
+    const existing = await hydratePrayers();
+    const filtered = existing.filter((prayer) => prayer.id !== newPrayer.id);
+    await savePrayers([newPrayer, ...filtered]);
+
     router.push({ pathname: '/dashboard', params: payload } as never);
   };
 

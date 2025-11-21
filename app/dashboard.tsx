@@ -359,9 +359,8 @@ function safeParseStringArray(serialized?: string) {
 }
 
 const samplePrayers: PrayerItem[] = [
-  { id: 'p1', topicId: 'family', topicLabel: 'Family', name: 'Family Crisis', days: ['M', 'T', 'W'], reminder: true, completed: false },
-  { id: 'p2', topicId: 'health', topicLabel: 'Health', name: 'Health Concern', days: ['Daily'], reminder: true, completed: false },
-  { id: 'p3', topicId: 'work', topicLabel: 'Work', name: 'Promotion', days: ['Weekdays'], reminder: false, completed: false },
+  { id: 'placeholder-1', topicId: 'family', topicLabel: 'Family', name: 'Placeholder prayer 1', days: ['Daily'], reminder: true, completed: false },
+  { id: 'placeholder-2', topicId: 'health', topicLabel: 'Health', name: 'Placeholder prayer 2', days: ['M', 'W', 'F'], reminder: false, completed: false },
 ];
 
 interface PrayerItem extends StoredPrayer {
