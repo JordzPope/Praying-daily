@@ -1,2 +1,0 @@
-import '../../src/async-require/setup';
-//# sourceMappingURL=runtime.d.ts.map
