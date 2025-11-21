@@ -1,4 +1,4 @@
-import type { NativeTabsTriggerTabBarProps } from './types';
+import type { NativeTabsTriggerTabBarProps } from '../../../src/native-tabs/NativeBottomTabs/types';
 /**
  * The component used to customize the style of the tab bar, when given trigger is selected.
  *

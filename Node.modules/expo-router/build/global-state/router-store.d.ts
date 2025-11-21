@@ -1,11 +1,11 @@
 import { NavigationContainerRefWithCurrent, NavigationState, PartialState, useStateForPath } from '@react-navigation/native';
 import { ComponentType } from 'react';
-import { RouteNode } from '../Route';
-import { ExpoLinkingOptions, LinkingConfigOptions } from '../getLinkingConfig';
-import { RedirectConfig } from '../getRoutesCore';
-import { UrlObject } from './routeInfo';
-import { RequireContext, type Href } from '../types';
-import { type LinkToOptions } from './routing';
+import { RouteNode } from '../../src/Route';
+import { ExpoLinkingOptions, LinkingConfigOptions } from '../../src/getLinkingConfig';
+import { RedirectConfig } from '../../src/getRoutesCore';
+import { UrlObject } from '../../src/global-state/routeInfo';
+import { RequireContext, type Href } from '../../src/types';
+import { type LinkToOptions } from '../../src/global-state/routing';
 export type StoreRedirects = readonly [RegExp, RedirectConfig, boolean];
 export type ReactNavigationState = NavigationState | PartialState<NavigationState>;
 export type FocusedRouteState = NonNullable<ReturnType<typeof useStateForPath>>;

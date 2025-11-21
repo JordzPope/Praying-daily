@@ -8,7 +8,7 @@
  */
 
 import type * as React from 'react';
-import {View} from '../../Components/View/View';
+import {View} from '../View/View';
 import {TouchableWithoutFeedbackProps} from './TouchableWithoutFeedback';
 
 export interface TVProps {

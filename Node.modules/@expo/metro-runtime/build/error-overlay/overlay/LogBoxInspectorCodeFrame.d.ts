@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 import React from 'react';
-import type { CodeFrame } from '../Data/parseLogBoxLog';
+import type { CodeFrame } from '../../../src/error-overlay/Data/parseLogBoxLog';
 export declare function LogBoxInspectorCodeFrame({ codeFrame }: {
     codeFrame?: CodeFrame;
 }): React.JSX.Element | null;

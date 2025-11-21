@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageTransition } from '../Image.types';
+import { ImageTransition } from '../../src/Image.types';
 type Callbacks = {
     onReady?: (() => void) | null;
     onAnimationFinished?: (() => void) | null;

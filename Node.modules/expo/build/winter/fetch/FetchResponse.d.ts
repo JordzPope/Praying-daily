@@ -1,4 +1,4 @@
-import type { NativeResponse } from './NativeRequest';
+import type { NativeResponse } from '../../../src/winter/fetch/NativeRequest';
 declare const ConcreteNativeResponse: typeof NativeResponse;
 export type AbortSubscriptionCleanupFunction = () => void;
 type RNFormData = Awaited<ReturnType<globalThis.Response['formData']>>;

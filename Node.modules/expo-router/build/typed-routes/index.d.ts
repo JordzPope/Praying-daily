@@ -1,5 +1,5 @@
-import { RequireContextPonyFill } from '../testing-library/require-context-ponyfill';
-export type { RequireContextPonyFill } from '../testing-library/require-context-ponyfill';
+import { RequireContextPonyFill } from '../../src/testing-library/require-context-ponyfill';
+export type { RequireContextPonyFill } from '../../src/testing-library/require-context-ponyfill';
 /**
  * This file is imported via `@expo/cli`. While users should be using the same SDK version of `expo-router` as `@expo/cli`,
  * this export allows us to ensure that the version of the `expo-router` package is compatible with the version of `@expo/cli`.

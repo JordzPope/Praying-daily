@@ -1,5 +1,5 @@
 import React from 'react';
-import { ExtendedStackNavigationOptions } from '../../layouts/StackClient';
+import { ExtendedStackNavigationOptions } from '../../../src/layouts/StackClient';
 declare function TransparentModalStackRouteDrawer({ routeKey, options, dismissible, renderScreen, onDismiss, }: {
     routeKey: string;
     options: ExtendedStackNavigationOptions;

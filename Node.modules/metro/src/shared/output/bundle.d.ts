@@ -11,7 +11,7 @@
 import type {AssetData} from '../../Asset';
 
 import Server from '../../Server';
-import {BuildOptions, OutputOptions, RequestOptions} from '../../shared/types';
+import {BuildOptions, OutputOptions, RequestOptions} from '../types';
 
 export function build(
   packagerClient: Server,

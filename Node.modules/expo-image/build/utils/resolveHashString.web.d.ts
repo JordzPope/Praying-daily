@@ -1,4 +1,4 @@
-import { ImageSource } from '../Image.types';
+import { ImageSource } from '../../src/Image.types';
 /**
  * Converts a string in blurhash format (`blurhash:/<hash>/<width>/<height>`
  * or <hash>/<width>/<height>) into an `ImageSource`.

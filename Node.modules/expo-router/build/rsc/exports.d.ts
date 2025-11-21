@@ -1,6 +1,6 @@
-import type { Href } from '../types';
-import { useRouter_UNSTABLE } from './router/client';
-export { Link } from './router/client';
+import type { Href } from '../../src/types';
+import { useRouter_UNSTABLE } from '../../src/rsc/router/client';
+export { Link } from '../../src/rsc/router/client';
 export declare function usePathname(): string;
 export declare function useLocalSearchParams(): {
     [k: string]: string;
@@ -28,8 +28,8 @@ export declare function useRootNavigation(): void;
 export declare function useRootNavigationState(): void;
 export declare function useUnstableGlobalHref(): void;
 export { useRouter_UNSTABLE as useRouter };
-export { Unmatched } from '../views/Unmatched';
-export { ErrorBoundaryProps } from '../views/Try';
-export { ErrorBoundary } from '../views/ErrorBoundary';
+export { Unmatched } from '../../src/views/Unmatched';
+export { ErrorBoundaryProps } from '../../src/views/Try';
+export { ErrorBoundary } from '../../src/views/ErrorBoundary';
 export declare const router: {};
 //# sourceMappingURL=exports.d.ts.map

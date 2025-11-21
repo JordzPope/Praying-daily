@@ -1,6 +1,6 @@
-import { createPages } from './create-pages';
-import { Options as GetRoutesOptions } from '../../getRoutes';
-import { EntriesDev } from '../server';
+import { createPages } from '../../../src/rsc/router/create-pages';
+import { Options as GetRoutesOptions } from '../../../src/getRoutes';
+import { EntriesDev } from '../../../src/rsc/server';
 type CreatePagesFn = Parameters<typeof createPages>[0];
 type CreatePagesFns = Parameters<CreatePagesFn>[0];
 type CreatePagesOptions = Parameters<CreatePagesFn>[1] & {

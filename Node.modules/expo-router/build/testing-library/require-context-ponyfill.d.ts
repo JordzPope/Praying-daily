@@ -1,4 +1,4 @@
-import type { RequireContext } from '../types';
+import type { RequireContext } from '../../src/types';
 export interface RequireContextPonyFill extends RequireContext {
     __add(file: string): void;
     __delete(file: string): void;

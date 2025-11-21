@@ -1,4 +1,4 @@
-import { ImageNativeProps, ImageProps, ImageSource } from '../Image.types';
+import { ImageNativeProps, ImageProps, ImageSource } from '../../src/Image.types';
 export declare function isBlurhashString(str: string): boolean;
 export declare function isThumbhashString(str: string): boolean;
 export declare function resolveSource(source?: ImageSource | string | number | null): ImageSource | null;

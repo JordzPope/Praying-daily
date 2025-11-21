@@ -1,9 +1,9 @@
 import { LinkingOptions, ParamListBase, PartialRoute, Route } from '@react-navigation/native';
-import type { ExpoTabActionType } from './TabRouter';
-import { UrlObject } from '../LocationProvider';
-import { RouteNode } from '../Route';
-import { Href } from '../types';
-import { Slot } from './Slot';
+import type { ExpoTabActionType } from '../../src/ui/TabRouter';
+import { UrlObject } from '../../src/LocationProvider';
+import { RouteNode } from '../../src/Route';
+import { Href } from '../../src/types';
+import { Slot } from '../../src/ui/Slot';
 export declare const ViewSlot: Slot<import("react-native").ViewProps, import("react").Component<import("react-native").ViewProps, {}, any>>;
 export type ScreenTrigger = {
     type: 'internal';

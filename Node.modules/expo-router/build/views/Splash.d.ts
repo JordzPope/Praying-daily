@@ -1,2 +1,2 @@
-export * from '../utils/splash';
+export * from '../../src/utils/splash';
 //# sourceMappingURL=Splash.d.ts.map

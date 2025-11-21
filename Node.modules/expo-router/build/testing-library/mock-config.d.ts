@@ -1,4 +1,4 @@
-import { MemoryContext } from './context-stubs';
+import { MemoryContext } from '../../src/testing-library/context-stubs';
 export type MockContextConfig = string | string[] | MemoryContext | {
     appDir: string;
     overrides: MemoryContext;
@@ -7,25 +7,25 @@ export declare function getMockConfig(context: MockContextConfig, metaOnly?: boo
     screens: {
         __root: {
             initialRouteName: undefined;
-            screens: Record<string, import("../getReactNavigationConfig").Screen>;
+            screens: Record<string, import("../../src/getReactNavigationConfig").Screen>;
             path: string;
         };
     } | {
         __root: {
             initialRouteName: undefined;
-            screens: Record<string, import("../getReactNavigationConfig").Screen>;
+            screens: Record<string, import("../../src/getReactNavigationConfig").Screen>;
             path: string;
         };
     } | {
         __root: {
             initialRouteName: undefined;
-            screens: Record<string, import("../getReactNavigationConfig").Screen>;
+            screens: Record<string, import("../../src/getReactNavigationConfig").Screen>;
             path: string;
         };
     } | {
         __root: {
             initialRouteName: undefined;
-            screens: Record<string, import("../getReactNavigationConfig").Screen>;
+            screens: Record<string, import("../../src/getReactNavigationConfig").Screen>;
             path: string;
         };
     };

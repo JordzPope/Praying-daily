@@ -6,8 +6,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 import React from 'react';
-import type { StackType } from '../Data/LogBoxLog';
-import type { Stack } from '../Data/LogBoxSymbolication';
+import type { StackType } from '../../../src/error-overlay/Data/LogBoxLog';
+import type { Stack } from '../../../src/error-overlay/Data/LogBoxSymbolication';
 type Props = {
     type: StackType;
     onRetry: () => void;

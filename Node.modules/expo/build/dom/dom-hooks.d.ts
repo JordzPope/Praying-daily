@@ -1,5 +1,5 @@
 import { type DependencyList, type Ref } from 'react';
-import type { DOMImperativeFactory } from './dom.types';
+import type { DOMImperativeFactory } from '../../src/dom/dom.types';
 /**
  * A React `useImperativeHandle` like hook for DOM components.
  *

@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 import React from 'react';
-import type { LogLevel } from '../Data/LogBoxLog';
+import type { LogLevel } from '../../../src/error-overlay/Data/LogBoxLog';
 type Props = {
     onSelectIndex: (selectedIndex: number) => void;
     level: LogLevel;

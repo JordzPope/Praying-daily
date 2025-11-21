@@ -1,4 +1,4 @@
-import type { DownloadOptions, FileSystemNetworkTaskProgressCallback, DownloadProgressData, UploadProgressData, FileInfo, FileSystemDownloadResult, FileSystemUploadOptions, FileSystemUploadResult, ReadingOptions, WritingOptions, DeletingOptions, InfoOptions, RelocatingOptions, MakeDirectoryOptions } from './legacy/FileSystem.types';
+import type { DownloadOptions, FileSystemNetworkTaskProgressCallback, DownloadProgressData, UploadProgressData, FileInfo, FileSystemDownloadResult, FileSystemUploadOptions, FileSystemUploadResult, ReadingOptions, WritingOptions, DeletingOptions, InfoOptions, RelocatingOptions, MakeDirectoryOptions } from '../src/legacy/FileSystem.types';
 /**
  * @deprecated Use `new File().info` or import this method from `expo-file-system/legacy`. This method will throw in runtime.
  */

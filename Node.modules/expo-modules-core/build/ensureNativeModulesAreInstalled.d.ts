@@ -1,4 +1,4 @@
-import './polyfill';
+import '../src/polyfill';
 /**
  * Ensures that the native modules are installed in the current runtime.
  * Otherwise, it synchronously calls a native function that installs them.

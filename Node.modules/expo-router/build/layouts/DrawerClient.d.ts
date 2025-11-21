@@ -97,8 +97,8 @@ export declare const Drawer: import("react").ForwardRefExoticComponent<Omit<Omit
 } & {
     id?: undefined;
 }, "children">> & import("react").RefAttributes<unknown>> & {
-    Screen: (props: import("..").ScreenProps<DrawerNavigationOptions, DrawerNavigationState<ParamListBase>, DrawerNavigationEventMap>) => null;
-    Protected: typeof import("../views/Protected").Protected;
+    Screen: (props: import("../../src").ScreenProps<DrawerNavigationOptions, DrawerNavigationState<ParamListBase>, DrawerNavigationEventMap>) => null;
+    Protected: typeof import("../../src/views/Protected").Protected;
 };
 export default Drawer;
 //# sourceMappingURL=DrawerClient.d.ts.map

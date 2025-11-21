@@ -7,9 +7,9 @@ import type {
   IgnoreFile,
   RelativeConfig,
   FilePackageData,
-} from "./types.ts";
+} from "./types.js";
 
-import type { CallerMetadata } from "../validation/options.ts";
+import type { CallerMetadata } from "../validation/options.js";
 
 export type { ConfigFile, IgnoreFile, RelativeConfig, FilePackageData };
 

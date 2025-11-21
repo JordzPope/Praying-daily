@@ -1,5 +1,5 @@
-import * as fastq from '../'
-import { promise as queueAsPromised } from '../'
+import * as fastq from '..'
+import { promise as queueAsPromised } from '..'
 
 // Basic example
 

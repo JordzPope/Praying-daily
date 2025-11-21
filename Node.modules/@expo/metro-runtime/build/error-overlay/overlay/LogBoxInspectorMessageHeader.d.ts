@@ -6,8 +6,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 import React from 'react';
-import type { LogLevel } from '../Data/LogBoxLog';
-import type { Message } from '../Data/parseLogBoxLog';
+import type { LogLevel } from '../../../src/error-overlay/Data/LogBoxLog';
+import type { Message } from '../../../src/error-overlay/Data/parseLogBoxLog';
 type Props = {
     collapsed: boolean;
     message: Message;

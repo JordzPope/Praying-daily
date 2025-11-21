@@ -1,4 +1,4 @@
-import { Href } from '../types';
+import { Href } from '../../src/types';
 export type SitemapType = {
     contextKey: string;
     filename: string;

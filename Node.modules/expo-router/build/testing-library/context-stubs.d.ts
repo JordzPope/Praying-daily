@@ -1,5 +1,5 @@
-import requireContext from './require-context-ponyfill';
-import { NativeIntent } from '../types';
+import requireContext from '../../src/testing-library/require-context-ponyfill';
+import { NativeIntent } from '../../src/types';
 export type ReactComponent = () => React.ReactElement<any, any> | null;
 export type NativeIntentStub = NativeIntent;
 export type FileStub = (Record<string, unknown> & {

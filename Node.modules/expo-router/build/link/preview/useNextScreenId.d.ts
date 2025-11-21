@@ -1,5 +1,5 @@
-import { TabPath } from './native';
-import { Href } from '../../types';
+import { TabPath } from '../../../src/link/preview/native';
+import { Href } from '../../../src/types';
 export declare function useNextScreenId(): [
     {
         nextScreenId: string | undefined;

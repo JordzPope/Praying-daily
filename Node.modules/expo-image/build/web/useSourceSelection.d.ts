@@ -1,6 +1,6 @@
 import type { SharedRefType } from 'expo';
 import React from 'react';
-import { ImageProps, ImageSource } from '../Image.types';
+import { ImageProps, ImageSource } from '../../src/Image.types';
 export interface SrcSetSource extends ImageSource {
     srcset: string;
     sizes: string;

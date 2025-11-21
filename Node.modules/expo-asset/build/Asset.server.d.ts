@@ -1,5 +1,5 @@
-import type { AssetDescriptor } from './Asset';
-import type { AssetMetadata } from './AssetSources';
+import type { AssetDescriptor } from '../src/Asset';
+import type { AssetMetadata } from '../src/AssetSources';
 export declare class Asset {
     private static byHash;
     private static byUri;

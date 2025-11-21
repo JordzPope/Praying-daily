@@ -12,7 +12,7 @@
 
 import type { ColorValue } from "../../StyleSheet/StyleSheet";
 import type { TouchableWithoutFeedbackProps } from "./TouchableWithoutFeedback";
-import View from "../../Components/View/View";
+import View from "../View/View";
 import { type ViewStyleProp } from "../../StyleSheet/StyleSheet";
 import * as React from "react";
 type AndroidProps = Readonly<{

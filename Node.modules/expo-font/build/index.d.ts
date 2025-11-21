@@ -1,4 +1,4 @@
-export * from './Font';
-export * from './FontUtils';
-export { useFonts } from './FontHooks';
+export * from '../src/Font';
+export * from '../src/FontUtils';
+export { useFonts } from '../src/FontHooks';
 //# sourceMappingURL=index.d.ts.map

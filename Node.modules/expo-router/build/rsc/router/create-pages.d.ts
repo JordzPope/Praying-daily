@@ -8,8 +8,8 @@
  * https://github.com/dai-shi/waku/blob/3d1cc7d714b67b142c847e879c30f0724fc457a7/packages/waku/src/router/create-pages.ts#L1
  */
 import type { FunctionComponent, ReactNode } from 'react';
-import type { RouteProps } from './common.js';
-import type { BuildConfig } from '../server.js';
+import type { RouteProps } from '../../../src/rsc/router/common.js';
+import type { BuildConfig } from '../../../src/rsc/server.js';
 /**
  * Type version of `String.prototype.split()`. Splits the first string argument by the second string argument
  * @example
@@ -72,9 +72,9 @@ export declare function createPages(fn: (fns: {
 }, opts: {
     unstable_buildConfig: BuildConfig | undefined;
 }) => Promise<void>): {
-    renderEntries: import("../server.js").RenderEntries;
-    getBuildConfig: import("../server.js").GetBuildConfig | undefined;
-    getSsrConfig: import("../server.js").GetSsrConfig | undefined;
+    renderEntries: import("../../../src/rsc/server.js").RenderEntries;
+    getBuildConfig: import("../../../src/rsc/server.js").GetBuildConfig | undefined;
+    getSsrConfig: import("../../../src/rsc/server.js").GetSsrConfig | undefined;
 };
 export {};
 //# sourceMappingURL=create-pages.d.ts.map

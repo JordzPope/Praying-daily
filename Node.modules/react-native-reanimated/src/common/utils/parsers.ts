@@ -2,7 +2,7 @@
 'worklet';
 import type { BoxShadowValue } from 'react-native';
 
-import { isLength } from '../utils/guards';
+import { isLength } from './guards';
 
 const LENGTH_MAPPINGS = [
   'offsetX',

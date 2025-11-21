@@ -1,5 +1,5 @@
 import { NativeModule } from 'expo-modules-core';
-import type { Directory, File, DownloadOptions } from './ExpoFileSystem.types';
+import type { Directory, File, DownloadOptions } from '../src/ExpoFileSystem.types';
 declare class ExpoFileSystemModule extends NativeModule {
     FileSystemDirectory: typeof Directory;
     FileSystemFile: typeof File;

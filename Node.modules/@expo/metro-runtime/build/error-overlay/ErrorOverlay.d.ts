@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 import React from 'react';
-import { LogBoxLog, StackType } from './Data/LogBoxLog';
+import { LogBoxLog, StackType } from '../../src/error-overlay/Data/LogBoxLog';
 export declare function LogBoxInspectorContainer(): React.JSX.Element | null;
 export declare function LogBoxInspector({ log, selectedLogIndex, logs, }: {
     log: LogBoxLog;

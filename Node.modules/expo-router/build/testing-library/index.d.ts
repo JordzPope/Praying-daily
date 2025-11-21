@@ -1,9 +1,9 @@
-import './expect';
-import './mocks';
+import '../../src/testing-library/expect';
+import '../../src/testing-library/mocks';
 import React from 'react';
-import { MockContextConfig, getMockConfig, getMockContext } from './mock-config';
-import { ExpoLinkingOptions } from '../getLinkingConfig';
-import { ReactNavigationState } from '../global-state/router-store';
+import { MockContextConfig, getMockConfig, getMockContext } from '../../src/testing-library/mock-config';
+import { ExpoLinkingOptions } from '../../src/getLinkingConfig';
+import { ReactNavigationState } from '../../src/global-state/router-store';
 declare const rnTestingLibrary: typeof import("@testing-library/react-native");
 export type * from '@testing-library/react-native';
 export declare const act: typeof React.act, cleanup: typeof import("@testing-library/react-native").cleanup, fireEvent: typeof import("@testing-library/react-native").fireEvent, waitFor: typeof import("@testing-library/react-native").waitFor, waitForElementToBeRemoved: typeof import("@testing-library/react-native").waitForElementToBeRemoved, within: typeof import("@testing-library/react-native").within, configure: typeof import("@testing-library/react-native").configure, resetToDefaults: typeof import("@testing-library/react-native").resetToDefaults, isHiddenFromAccessibility: typeof import("@testing-library/react-native").isHiddenFromAccessibility, isInaccessible: typeof import("@testing-library/react-native").isHiddenFromAccessibility, getDefaultNormalizer: typeof import("@testing-library/react-native").getDefaultNormalizer, renderHook: typeof import("@testing-library/react-native").renderHook, userEvent: {

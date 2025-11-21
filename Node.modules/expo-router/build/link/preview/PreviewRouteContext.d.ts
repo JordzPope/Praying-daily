@@ -1,4 +1,4 @@
-import type { UnknownOutputParams } from '../../types';
+import type { UnknownOutputParams } from '../../../src/types';
 export interface PreviewRouteContextType {
     params: UnknownOutputParams;
     pathname: string;

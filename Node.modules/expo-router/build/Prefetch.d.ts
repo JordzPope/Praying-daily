@@ -1,4 +1,4 @@
-import { Href } from './types';
+import { Href } from '../src/types';
 export type PreloadProps = {
     href: Href;
 };

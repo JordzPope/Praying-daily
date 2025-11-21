@@ -1,7 +1,7 @@
 import { ComponentProps, ReactElement } from 'react';
 import { ScreenContainer } from 'react-native-screens';
-import { TabsDescriptor } from './TabContext';
-import { TabListProps } from './TabList';
+import { TabsDescriptor } from '../../src/ui/TabContext';
+import { TabListProps } from '../../src/ui/TabList';
 export type TabSlotProps = ComponentProps<typeof ScreenContainer> & {
     /**
      * Remove inactive screens.

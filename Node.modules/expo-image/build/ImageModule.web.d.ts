@@ -1,5 +1,5 @@
 import { NativeModule } from 'expo-modules-core';
-import type { ImageNativeModule, ImageRef, ImageSource } from './Image.types';
+import type { ImageNativeModule, ImageRef, ImageSource } from '../src/Image.types';
 declare class ImageModule extends NativeModule implements ImageNativeModule {
     Image: typeof ImageRef;
     prefetch(urls: string | string[], _: unknown, __: unknown): Promise<boolean>;

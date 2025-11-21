@@ -1,7 +1,7 @@
 import { type ReactElement, type ReactNode } from 'react';
-import { NativeTabsTriggerTabBar } from './NativeTabsTriggerTabBar';
-import type { ExtendedNativeTabOptions, NativeTabTriggerProps } from './types';
-import { type IconProps } from '../common/elements';
+import { NativeTabsTriggerTabBar } from '../../../src/native-tabs/NativeBottomTabs/NativeTabsTriggerTabBar';
+import type { ExtendedNativeTabOptions, NativeTabTriggerProps } from '../../../src/native-tabs/NativeBottomTabs/types';
+import { type IconProps } from '../../../src/native-tabs/common/elements';
 /**
  * The component used to customize the native tab options both in the _layout file and from the tab screen.
  *

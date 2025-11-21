@@ -1,6 +1,6 @@
 import React, { type PropsWithChildren, type ComponentType } from 'react';
-import { ExpoLinkingOptions } from './getLinkingConfig';
-import { RequireContext } from './types';
+import { ExpoLinkingOptions } from '../src/getLinkingConfig';
+import { RequireContext } from '../src/types';
 export type ExpoRootProps = {
     context: RequireContext;
     location?: URL | string;

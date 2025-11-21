@@ -1,4 +1,4 @@
-import { NotificationFeedbackType, ImpactFeedbackStyle } from './Haptics.types';
+import { NotificationFeedbackType, ImpactFeedbackStyle } from '../src/Haptics.types';
 declare const _default: {
     notificationAsync(type: NotificationFeedbackType): Promise<void>;
     impactAsync(style: ImpactFeedbackStyle): Promise<void>;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { type View } from 'react-native';
-import ExpoImage from './ExpoImage';
-import { ImageLoadOptions, ImagePrefetchOptions, ImageProps, ImageRef, ImageSource } from './Image.types';
+import ExpoImage from '../src/ExpoImage';
+import { ImageLoadOptions, ImagePrefetchOptions, ImageProps, ImageRef, ImageSource } from '../src/Image.types';
 export declare class Image extends React.PureComponent<ImageProps> {
     nativeViewRef: React.RefObject<ExpoImage | null>;
     containerViewRef: React.RefObject<View | null>;

@@ -1,4 +1,4 @@
-import { StatusBarAnimation, StatusBarProps, StatusBarStyle } from './types';
+import { StatusBarAnimation, StatusBarProps, StatusBarStyle } from '../src/types';
 export declare function StatusBar(props: StatusBarProps): import("react").JSX.Element;
 export declare function setStatusBarStyle(style: StatusBarStyle, animated?: boolean): void;
 export declare function setStatusBarHidden(hidden: boolean, animation?: StatusBarAnimation): void;

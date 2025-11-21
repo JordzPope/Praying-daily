@@ -1,4 +1,4 @@
-import type { NativeTabsProps } from './types';
+import type { NativeTabsProps } from '../../../src/native-tabs/NativeBottomTabs/types';
 /**
  * The component used to create native tabs layout.
  *
@@ -18,8 +18,8 @@ import type { NativeTabsProps } from './types';
  * ```
  */
 export declare const NativeTabs: ((props: NativeTabsProps) => import("react").JSX.Element) & {
-    Trigger: ((props: import("./types").NativeTabTriggerProps) => null) & {
-        TabBar: typeof import("./NativeTabsTriggerTabBar").NativeTabsTriggerTabBar;
+    Trigger: ((props: import("../../../src/native-tabs/NativeBottomTabs/types").NativeTabTriggerProps) => null) & {
+        TabBar: typeof import("../../../src/native-tabs/NativeBottomTabs/NativeTabsTriggerTabBar").NativeTabsTriggerTabBar;
     };
 };
 //# sourceMappingURL=NativeTabs.d.ts.map

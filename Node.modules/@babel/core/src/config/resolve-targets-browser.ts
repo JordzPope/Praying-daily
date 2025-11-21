@@ -1,6 +1,6 @@
 /* c8 ignore start */
 
-import type { InputOptions } from "./validation/options.ts";
+import type { InputOptions } from "./validation/options.js";
 import getTargets, {
   type InputTargets,
 } from "@babel/helper-compilation-targets";

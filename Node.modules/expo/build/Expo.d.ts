@@ -1,7 +1,7 @@
-import './Expo.fx';
-export { disableErrorHandling } from './errors/ExpoErrorManager';
-export { default as registerRootComponent } from './launch/registerRootComponent';
-export { isRunningInExpoGo, getExpoGoProjectConfig } from './environment/ExpoGo';
+import '../src/Expo.fx';
+export { disableErrorHandling } from '../src/errors/ExpoErrorManager';
+export { default as registerRootComponent } from '../src/launch/registerRootComponent';
+export { isRunningInExpoGo, getExpoGoProjectConfig } from '../src/environment/ExpoGo';
 export { EventEmitter, SharedObject, SharedRef, NativeModule, requireNativeModule, requireOptionalNativeModule, requireNativeViewManager as requireNativeView, registerWebModule, reloadAppAsync, } from 'expo-modules-core';
 export type { 
 /** @deprecated Move to `SharedRef` with a type-only import instead */
@@ -12,5 +12,5 @@ EventEmitter as EventEmitterType,
 NativeModule as NativeModuleType, 
 /** @deprecated Move to `SharedObject` with a type-only import instead */
 SharedObject as SharedObjectType, } from 'expo-modules-core/types';
-export { useEvent, useEventListener } from './hooks/useEvent';
+export { useEvent, useEventListener } from '../src/hooks/useEvent';
 //# sourceMappingURL=Expo.d.ts.map

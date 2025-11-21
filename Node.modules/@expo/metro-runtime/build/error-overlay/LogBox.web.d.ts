@@ -5,8 +5,8 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import { IgnorePattern, LogData } from './Data/LogBoxData';
-import { ExtendedExceptionData } from './Data/parseLogBoxLog';
+import { IgnorePattern, LogData } from '../../src/error-overlay/Data/LogBoxData';
+import { ExtendedExceptionData } from '../../src/error-overlay/Data/parseLogBoxLog';
 export { LogData, ExtendedExceptionData, IgnorePattern };
 declare let LogBox: ILogBox;
 interface ILogBox {

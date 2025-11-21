@@ -6,9 +6,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 import * as React from 'react';
-import { LogBoxLog } from './LogBoxLog';
-import type { LogLevel, StackType } from './LogBoxLog';
-import type { Message, Category, ComponentStack, ExtendedExceptionData } from './parseLogBoxLog';
+import { LogBoxLog } from '../../../src/error-overlay/Data/LogBoxLog';
+import type { LogLevel, StackType } from '../../../src/error-overlay/Data/LogBoxLog';
+import type { Message, Category, ComponentStack, ExtendedExceptionData } from '../../../src/error-overlay/Data/parseLogBoxLog';
 export type LogBoxLogs = Set<LogBoxLog>;
 export type LogData = {
     level: LogLevel;

@@ -7,7 +7,7 @@
  */
 import React from 'react';
 import { StyleProp, TextStyle } from 'react-native';
-import type { Message } from '../Data/parseLogBoxLog';
+import type { Message } from '../../../src/error-overlay/Data/parseLogBoxLog';
 type Props = {
     message: Message;
     style: StyleProp<TextStyle>;

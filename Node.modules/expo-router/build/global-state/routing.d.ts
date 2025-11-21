@@ -1,8 +1,8 @@
 import { NavigationAction, type NavigationState, PartialRoute, type PartialState, type NavigationContainerRef, ParamListBase } from '@react-navigation/native';
 import { type RefObject } from 'react';
-import { ResultState } from '../fork/getStateFromPath';
-import { Href } from '../types';
-import { SingularOptions } from '../useScreens';
+import { ResultState } from '../../src/fork/getStateFromPath';
+import { Href } from '../../src/types';
+import { SingularOptions } from '../../src/useScreens';
 export declare const routingQueue: {
     queue: NavigationAction[];
     subscribers: Set<() => void>;

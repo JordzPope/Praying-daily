@@ -1,5 +1,5 @@
-import type { IgnorePattern, LogData } from './Data/LogBoxData';
-import type { ExtendedExceptionData } from './Data/parseLogBoxLog';
+import type { IgnorePattern, LogData } from '../../src/error-overlay/Data/LogBoxData';
+import type { ExtendedExceptionData } from '../../src/error-overlay/Data/parseLogBoxLog';
 export { LogData, ExtendedExceptionData, IgnorePattern };
 interface ILogBox {
     install(): void;

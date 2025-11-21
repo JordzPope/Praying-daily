@@ -1,4 +1,4 @@
-import type { Directory, File } from '../FileSystem';
+import type { Directory, File } from '../../src/FileSystem';
 export declare class PathUtilities {
     /**
      * Joins path segments into a single path.

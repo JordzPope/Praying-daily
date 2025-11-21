@@ -1,5 +1,5 @@
-import type { DynamicConvention, RouteNode } from './Route';
-import type { RequireContext } from './types';
+import type { DynamicConvention, RouteNode } from '../src/Route';
+import type { RequireContext } from '../src/types';
 export type Options = {
     ignore?: RegExp[];
     preserveApiRoutes?: boolean;

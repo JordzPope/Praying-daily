@@ -1,12 +1,12 @@
 export declare const StoreContext: import("react").Context<{
     shouldShowTutorial(): boolean;
-    readonly state: import("./router-store").ReactNavigationState | undefined;
+    readonly state: import("../../src/global-state/router-store").ReactNavigationState | undefined;
     readonly navigationRef: import("@react-navigation/core").NavigationContainerRefWithCurrent<ReactNavigation.RootParamList>;
-    readonly routeNode: import("../Route").RouteNode | null;
-    getRouteInfo(): import("./routeInfo").UrlObject;
-    readonly redirects: import("./router-store").StoreRedirects[];
+    readonly routeNode: import("../../src/Route").RouteNode | null;
+    getRouteInfo(): import("../../src/global-state/routeInfo").UrlObject;
+    readonly redirects: import("../../src/global-state/router-store").StoreRedirects[];
     readonly rootComponent: import("react").ComponentType<any>;
-    getStateForHref(href: import("..").Href, options?: import("./routing").LinkToOptions): (Partial<Omit<Readonly<{
+    getStateForHref(href: import("../../src").Href, options?: import("../../src/global-state/routing").LinkToOptions): (Partial<Omit<Readonly<{
         key: string;
         index: number;
         routeNames: string[];
@@ -31,20 +31,20 @@ export declare const StoreContext: import("react").Context<{
             routes: import("@react-navigation/routers").PartialRoute<import("@react-navigation/routers").Route<string, object | undefined>>[];
         }> & /*elided*/ any;
     }) | undefined;
-    readonly linking: import("../getLinkingConfig").ExpoLinkingOptions | undefined;
-    setFocusedState(state: import("./router-store").FocusedRouteState): void;
+    readonly linking: import("../../src/getLinkingConfig").ExpoLinkingOptions | undefined;
+    setFocusedState(state: import("../../src/global-state/router-store").FocusedRouteState): void;
     onReady(): void;
     assertIsReady(): void;
 } | null>;
 export declare const useExpoRouterStore: () => {
     shouldShowTutorial(): boolean;
-    readonly state: import("./router-store").ReactNavigationState | undefined;
+    readonly state: import("../../src/global-state/router-store").ReactNavigationState | undefined;
     readonly navigationRef: import("@react-navigation/core").NavigationContainerRefWithCurrent<ReactNavigation.RootParamList>;
-    readonly routeNode: import("../Route").RouteNode | null;
-    getRouteInfo(): import("./routeInfo").UrlObject;
-    readonly redirects: import("./router-store").StoreRedirects[];
+    readonly routeNode: import("../../src/Route").RouteNode | null;
+    getRouteInfo(): import("../../src/global-state/routeInfo").UrlObject;
+    readonly redirects: import("../../src/global-state/router-store").StoreRedirects[];
     readonly rootComponent: import("react").ComponentType<any>;
-    getStateForHref(href: import("..").Href, options?: import("./routing").LinkToOptions): (Partial<Omit<Readonly<{
+    getStateForHref(href: import("../../src").Href, options?: import("../../src/global-state/routing").LinkToOptions): (Partial<Omit<Readonly<{
         key: string;
         index: number;
         routeNames: string[];
@@ -69,8 +69,8 @@ export declare const useExpoRouterStore: () => {
             routes: import("@react-navigation/routers").PartialRoute<import("@react-navigation/routers").Route<string, object | undefined>>[];
         }> & /*elided*/ any;
     }) | undefined;
-    readonly linking: import("../getLinkingConfig").ExpoLinkingOptions | undefined;
-    setFocusedState(state: import("./router-store").FocusedRouteState): void;
+    readonly linking: import("../../src/getLinkingConfig").ExpoLinkingOptions | undefined;
+    setFocusedState(state: import("../../src/global-state/router-store").FocusedRouteState): void;
     onReady(): void;
     assertIsReady(): void;
 };

@@ -1,6 +1,6 @@
 import type { NativeModule, SharedRef, SharedRefType } from 'expo';
 import { ImageStyle as RNImageStyle, StyleProp, View, ViewProps, ViewStyle } from 'react-native';
-import ExpoImage from './ExpoImage';
+import ExpoImage from '../src/ExpoImage';
 export type ImageSource = {
     /**
      * A string representing the resource identifier for the image,

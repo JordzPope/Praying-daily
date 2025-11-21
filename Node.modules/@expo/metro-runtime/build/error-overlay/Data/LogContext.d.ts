@@ -1,5 +1,5 @@
 import React from 'react';
-import { LogBoxLog } from './LogBoxLog';
+import { LogBoxLog } from '../../../src/error-overlay/Data/LogBoxLog';
 export declare const LogContext: React.Context<{
     selectedLogIndex: number;
     isDisabled: boolean;

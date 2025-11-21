@@ -4,8 +4,8 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import { Options } from '../getRoutes';
-import { ExpoRouterServerManifestV1 } from '../getServerManifest';
+import { Options } from '../../src/getRoutes';
+import { ExpoRouterServerManifestV1 } from '../../src/getServerManifest';
 /**
  * Get the server manifest with all dynamic routes loaded with `generateStaticParams`.
  * Unlike the `expo-router/src/routes-manifest.ts` method, this requires loading the entire app in-memory, which
@@ -17,6 +17,6 @@ export declare function getBuildTimeServerManifestAsync(options?: Options): Prom
 /** Get the linking manifest from a Node.js process. */
 export declare function getManifest(options?: Options): Promise<{
     initialRouteName: undefined;
-    screens: Record<string, import("../getReactNavigationConfig").Screen>;
+    screens: Record<string, import("../../src/getReactNavigationConfig").Screen>;
 }>;
 //# sourceMappingURL=getServerManifest.d.ts.map

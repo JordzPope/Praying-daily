@@ -1,6 +1,6 @@
-import ExpoFileSystem from './ExpoFileSystem';
-import type { PathInfo } from './ExpoFileSystem.types';
-import { PathUtilities } from './pathUtilities';
+import ExpoFileSystem from '../src/ExpoFileSystem';
+import type { PathInfo } from '../src/ExpoFileSystem.types';
+import { PathUtilities } from '../src/pathUtilities';
 export declare class Paths extends PathUtilities {
     /**
      * A property containing the cache directory – a place to store files that can be deleted by the system when the device runs low on storage.

@@ -1,4 +1,4 @@
-import { DownloadOptions, DownloadPauseState, FileSystemNetworkTaskProgressCallback, DownloadProgressData, UploadProgressData, FileInfo, FileSystemDownloadResult, FileSystemRequestDirectoryPermissionsResult, FileSystemUploadOptions, FileSystemUploadResult, ReadingOptions, WritingOptions, DeletingOptions, InfoOptions, RelocatingOptions, MakeDirectoryOptions } from './FileSystem.types';
+import { DownloadOptions, DownloadPauseState, FileSystemNetworkTaskProgressCallback, DownloadProgressData, UploadProgressData, FileInfo, FileSystemDownloadResult, FileSystemRequestDirectoryPermissionsResult, FileSystemUploadOptions, FileSystemUploadResult, ReadingOptions, WritingOptions, DeletingOptions, InfoOptions, RelocatingOptions, MakeDirectoryOptions } from '../../src/legacy/FileSystem.types';
 /**
  * `file://` URI pointing to the directory where user documents for this app will be stored.
  * Files stored here will remain until explicitly deleted by the app. Ends with a trailing `/`.
@@ -344,22 +344,22 @@ export declare namespace StorageAccessFramework {
     /**
      * Alias for [`writeAsStringAsync`](#filesystemwriteasstringasyncfileuri-contents-options) method.
      */
-    const writeAsStringAsync: typeof import("./FileSystem").writeAsStringAsync;
+    const writeAsStringAsync: typeof import("../../src/legacy/FileSystem").writeAsStringAsync;
     /**
      * Alias for [`readAsStringAsync`](#filesystemreadasstringasyncfileuri-options) method.
      */
-    const readAsStringAsync: typeof import("./FileSystem").readAsStringAsync;
+    const readAsStringAsync: typeof import("../../src/legacy/FileSystem").readAsStringAsync;
     /**
      * Alias for [`deleteAsync`](#filesystemdeleteasyncfileuri-options) method.
      */
-    const deleteAsync: typeof import("./FileSystem").deleteAsync;
+    const deleteAsync: typeof import("../../src/legacy/FileSystem").deleteAsync;
     /**
      * Alias for [`moveAsync`](#filesystemmoveasyncoptions) method.
      */
-    const moveAsync: typeof import("./FileSystem").moveAsync;
+    const moveAsync: typeof import("../../src/legacy/FileSystem").moveAsync;
     /**
      * Alias for [`copyAsync`](#filesystemcopyasyncoptions) method.
      */
-    const copyAsync: typeof import("./FileSystem").copyAsync;
+    const copyAsync: typeof import("../../src/legacy/FileSystem").copyAsync;
 }
 //# sourceMappingURL=FileSystem.d.ts.map

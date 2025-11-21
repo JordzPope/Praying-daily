@@ -1,5 +1,5 @@
 import React from 'react';
-import { RouteNode } from '../Route';
+import { RouteNode } from '../../src/Route';
 export declare function SuspenseFallback({ route }: {
     route: RouteNode;
 }): React.JSX.Element | null;

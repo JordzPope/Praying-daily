@@ -1,6 +1,6 @@
 import { type ComponentType, type PropsWithChildren } from 'react';
-import { sortRoutesWithInitial, sortRoutes } from './sortRoutes';
-import { type ErrorBoundaryProps } from './views/Try';
+import { sortRoutesWithInitial, sortRoutes } from '../src/sortRoutes';
+import { type ErrorBoundaryProps } from '../src/views/Try';
 export type DynamicConvention = {
     name: string;
     deep: boolean;

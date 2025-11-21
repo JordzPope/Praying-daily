@@ -1,4 +1,4 @@
-export { Stack } from './layouts/Stack';
-export { Tabs } from './layouts/Tabs';
-export * from './exports';
+export { Stack } from '../src/layouts/Stack';
+export { Tabs } from '../src/layouts/Tabs';
+export * from '../src/exports';
 //# sourceMappingURL=index.d.ts.map

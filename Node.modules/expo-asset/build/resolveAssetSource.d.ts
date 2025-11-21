@@ -1,4 +1,4 @@
-import AssetSourceResolver, { ResolvedAssetSource } from './AssetSourceResolver';
+import AssetSourceResolver, { ResolvedAssetSource } from '../src/AssetSourceResolver';
 export declare function setCustomSourceTransformer(transformer: (resolver: AssetSourceResolver) => ResolvedAssetSource): void;
 interface resolveAssetSource {
     (source: any): ResolvedAssetSource | null;

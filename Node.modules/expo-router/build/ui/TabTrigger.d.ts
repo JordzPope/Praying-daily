@@ -1,9 +1,9 @@
 import { TabNavigationState } from '@react-navigation/native';
 import { ReactNode, ReactElement, ComponentProps } from 'react';
 import { View, PressableProps } from 'react-native';
-import { ExpoTabsResetValue } from './TabRouter';
-import type { TriggerMap } from './common';
-import type { Href } from '../types';
+import { ExpoTabsResetValue } from '../../src/ui/TabRouter';
+import type { TriggerMap } from '../../src/ui/common';
+import type { Href } from '../../src/types';
 type PressablePropsWithoutFunctionChildren = Omit<PressableProps, 'children'> & {
     children?: ReactNode | undefined;
 };

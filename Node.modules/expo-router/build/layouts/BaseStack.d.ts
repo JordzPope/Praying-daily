@@ -1,3 +1,3 @@
-import Stack from './StackClient';
+import Stack from '../../src/layouts/StackClient';
 export default Stack;
 //# sourceMappingURL=BaseStack.d.ts.map

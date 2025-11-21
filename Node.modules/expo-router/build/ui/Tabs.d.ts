@@ -1,13 +1,13 @@
 import { DefaultNavigatorOptions, ParamListBase, TabActionHelpers, TabNavigationState, TabRouterOptions } from '@react-navigation/native';
 import { PropsWithChildren } from 'react';
 import { ViewProps } from 'react-native';
-import { ExpoTabsScreenOptions, TabNavigationEventMap, TabsContextValue } from './TabContext';
-import { ScreenTrigger } from './common';
-export * from './TabContext';
-export * from './TabList';
-export * from './TabSlot';
-export * from './TabTrigger';
-export { ExpoTabsResetValue } from './TabRouter';
+import { ExpoTabsScreenOptions, TabNavigationEventMap, TabsContextValue } from '../../src/ui/TabContext';
+import { ScreenTrigger } from '../../src/ui/common';
+export * from '../../src/ui/TabContext';
+export * from '../../src/ui/TabList';
+export * from '../../src/ui/TabSlot';
+export * from '../../src/ui/TabTrigger';
+export { ExpoTabsResetValue } from '../../src/ui/TabRouter';
 /**
  * Options to provide to the Tab Router.
  */
@@ -130,7 +130,7 @@ export declare function useTabsWithChildren(options: UseTabsWithChildrenOptions)
         setParams(params: Partial<object | undefined>): void;
         replaceParams(params: object | undefined): void;
     } & TabActionHelpers<ParamListBase>;
-    describe: (route: import("@react-navigation/native").RouteProp<ParamListBase>, placeholder: boolean) => import("@react-navigation/native").Descriptor<import("./TabContext").ExpoTabsNavigatorScreenOptions, Omit<{
+    describe: (route: import("@react-navigation/native").RouteProp<ParamListBase>, placeholder: boolean) => import("@react-navigation/native").Descriptor<import("../../src/ui/TabContext").ExpoTabsNavigatorScreenOptions, Omit<{
         dispatch(action: Readonly<{
             type: string;
             payload?: object;
@@ -177,12 +177,12 @@ export declare function useTabsWithChildren(options: UseTabsWithChildrenOptions)
             type: string;
             stale: false;
         }>, {}, {}> | undefined>(id?: string | undefined): T;
-        setOptions(options: Partial<import("./TabContext").ExpoTabsNavigatorScreenOptions>): void;
+        setOptions(options: Partial<import("../../src/ui/TabContext").ExpoTabsNavigatorScreenOptions>): void;
     } & {
         setParams(params: Partial<object | undefined>): void;
         replaceParams(params: object | undefined): void;
     } & import("@react-navigation/native").EventConsumer<TabNavigationEventMap & import("@react-navigation/native").EventMapCore<TabNavigationState<any>>> & import("@react-navigation/native").PrivateValueStore<[ParamListBase, string, TabNavigationEventMap]> & TabActionHelpers<ParamListBase>, import("@react-navigation/native").RouteProp<ParamListBase, string>>;
-    descriptors: Record<string, import("@react-navigation/native").Descriptor<import("./TabContext").ExpoTabsNavigatorScreenOptions, Omit<{
+    descriptors: Record<string, import("@react-navigation/native").Descriptor<import("../../src/ui/TabContext").ExpoTabsNavigatorScreenOptions, Omit<{
         dispatch(action: Readonly<{
             type: string;
             payload?: object;
@@ -229,7 +229,7 @@ export declare function useTabsWithChildren(options: UseTabsWithChildrenOptions)
             type: string;
             stale: false;
         }>, {}, {}> | undefined>(id?: string | undefined): T;
-        setOptions(options: Partial<import("./TabContext").ExpoTabsNavigatorScreenOptions>): void;
+        setOptions(options: Partial<import("../../src/ui/TabContext").ExpoTabsNavigatorScreenOptions>): void;
     } & {
         setParams(params: Partial<object | undefined>): void;
         replaceParams(params: object | undefined): void;

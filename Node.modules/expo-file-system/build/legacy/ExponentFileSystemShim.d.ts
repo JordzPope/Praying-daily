@@ -1,5 +1,5 @@
 import { NativeModule } from 'expo-modules-core';
-import type { ExponentFileSystemModule, FileSystemEvents } from './types';
+import type { ExponentFileSystemModule, FileSystemEvents } from '../../src/legacy/types';
 export default class FileSystemShim extends NativeModule<FileSystemEvents> implements ExponentFileSystemModule {
     documentDirectory: null;
     cacheDirectory: null;

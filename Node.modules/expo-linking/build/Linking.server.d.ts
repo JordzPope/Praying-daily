@@ -1,4 +1,4 @@
-import { ParsedURL, SendIntentExtras, URLListener } from './Linking.types';
+import { ParsedURL, SendIntentExtras, URLListener } from '../src/Linking.types';
 export declare function addEventListener(type: 'url', handler: URLListener): {
     remove(): void;
 };
@@ -11,10 +11,10 @@ export declare function openURL(url: string): Promise<true>;
 export declare function canOpenURL(): Promise<boolean>;
 export declare function useURL(): string | null;
 export declare function useLinkingURL(): null;
-export * from './Linking.types';
+export * from '../src/Linking.types';
 export declare function collectManifestSchemes(): never[];
 export declare function hasConstantsManifest(): boolean;
 export declare function hasCustomScheme(): boolean;
 export declare function resolveScheme(): string;
-export { parse, createURL } from './createURL';
+export { parse, createURL } from '../src/createURL';
 //# sourceMappingURL=Linking.server.d.ts.map

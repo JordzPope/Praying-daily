@@ -1,5 +1,5 @@
-import { RedirectConfig } from './getRoutesCore';
-import type { StoreRedirects } from './global-state/router-store';
+import { RedirectConfig } from '../src/getRoutesCore';
+import type { StoreRedirects } from '../src/global-state/router-store';
 export declare function applyRedirects(url: string | null | undefined, redirects: StoreRedirects[] | undefined): string | undefined | null;
 export declare function getRedirectModule(redirectConfig: RedirectConfig): {
     default: () => import("react").CElement<{

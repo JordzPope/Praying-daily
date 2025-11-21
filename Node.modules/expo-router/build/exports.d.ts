@@ -1,26 +1,26 @@
-import { Navigator, Slot } from './views/Navigator';
-export { useRouter, useUnstableGlobalHref, usePathname, useNavigationContainerRef, useGlobalSearchParams, useLocalSearchParams, useSegments, useRootNavigation, useRootNavigationState, } from './hooks';
-export { router, Router } from './imperative-api';
-export * from './link/Link';
-export * from './link/elements';
-export { useIsPreview } from './link/preview/PreviewRouteContext';
-export { withLayoutContext } from './layouts/withLayoutContext';
+import { Navigator, Slot } from '../src/views/Navigator';
+export { useRouter, useUnstableGlobalHref, usePathname, useNavigationContainerRef, useGlobalSearchParams, useLocalSearchParams, useSegments, useRootNavigation, useRootNavigationState, } from '../src/hooks';
+export { router, Router } from '../src/imperative-api';
+export * from '../src/link/Link';
+export * from '../src/link/elements';
+export { useIsPreview } from '../src/link/preview/PreviewRouteContext';
+export { withLayoutContext } from '../src/layouts/withLayoutContext';
 export { Navigator, Slot };
-export { ExpoRoot } from './ExpoRoot';
-export { Unmatched } from './views/Unmatched';
-export { Sitemap } from './views/Sitemap';
-export { useSitemap, SitemapType } from './views/useSitemap';
-export { ErrorBoundaryProps } from './views/Try';
-export { ErrorBoundary } from './views/ErrorBoundary';
-export type { ScreenProps } from './useScreens';
+export { ExpoRoot } from '../src/ExpoRoot';
+export { Unmatched } from '../src/views/Unmatched';
+export { Sitemap } from '../src/views/Sitemap';
+export { useSitemap, SitemapType } from '../src/views/useSitemap';
+export { ErrorBoundaryProps } from '../src/views/Try';
+export { ErrorBoundary } from '../src/views/ErrorBoundary';
+export type { ScreenProps } from '../src/useScreens';
 /**
  * @hidden
  */
-export * as SplashScreen from './views/Splash';
-export { useNavigation } from './useNavigation';
-export { useFocusEffect, EffectCallback } from './useFocusEffect';
-export type { ResultState } from './fork/getStateFromPath';
-export type { RedirectConfig } from './getRoutesCore';
-export type { SingularOptions } from './useScreens';
-export type * from './types';
+export * as SplashScreen from '../src/views/Splash';
+export { useNavigation } from '../src/useNavigation';
+export { useFocusEffect, EffectCallback } from '../src/useFocusEffect';
+export type { ResultState } from '../src/fork/getStateFromPath';
+export type { RedirectConfig } from '../src/getRoutesCore';
+export type { SingularOptions } from '../src/useScreens';
+export type * from '../src/types';
 //# sourceMappingURL=exports.d.ts.map

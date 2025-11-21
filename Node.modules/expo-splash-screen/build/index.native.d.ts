@@ -1,4 +1,4 @@
-import { SplashScreenOptions } from './SplashScreen.types';
+import { SplashScreenOptions } from '../src/SplashScreen.types';
 export declare function setOptions(options: SplashScreenOptions): void;
 export declare function hide(): void;
 export declare function hideAsync(): Promise<void>;

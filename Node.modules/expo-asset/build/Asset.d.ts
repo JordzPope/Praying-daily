@@ -1,4 +1,4 @@
-import { AssetMetadata } from './AssetSources';
+import { AssetMetadata } from '../src/AssetSources';
 export type AssetDescriptor = {
     name: string;
     type: string;

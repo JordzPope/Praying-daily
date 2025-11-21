@@ -1,4 +1,4 @@
-import { UnloadFontOptions } from './Font.types';
+import { UnloadFontOptions } from '../src/Font.types';
 export type ExpoFontLoaderModule = {
     getLoadedFonts: () => string[];
     loadAsync: (fontFamilyName: string, localUriOrWebAsset: any) => Promise<void>;

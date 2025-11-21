@@ -1,4 +1,4 @@
-import { RequireContext } from '../types';
+import { RequireContext } from '../../src/types';
 export type GetTypedRoutesDeclarationFileOptions = {
     partialTypedGroups?: boolean;
     testIgnoreComments?: boolean;

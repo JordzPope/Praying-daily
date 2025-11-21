@@ -6,10 +6,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 import type { FunctionComponent, ReactNode } from 'react';
-import type { RouteProps, ShouldSkip } from './common';
-import type { PathSpec } from '../path';
-import { defineEntries } from '../server';
-import type { BuildConfig } from '../server';
+import type { RouteProps, ShouldSkip } from '../../../src/rsc/router/common';
+import type { PathSpec } from '../../../src/rsc/path';
+import { defineEntries } from '../../../src/rsc/server';
+import type { BuildConfig } from '../../../src/rsc/server';
 type RoutePropsForLayout = Omit<RouteProps, 'searchParams'> & {
     children: ReactNode;
 };

@@ -1,5 +1,5 @@
-import { OnErrorEvent } from './ImageWrapper.types';
-import { ImageNativeProps, ImageSource } from '../Image.types';
+import { OnErrorEvent } from '../../src/web/ImageWrapper.types';
+import { ImageNativeProps, ImageSource } from '../../src/Image.types';
 export declare function useThumbhash(source: ImageSource | null | undefined): readonly [{
     uri: string;
 } | null, boolean];

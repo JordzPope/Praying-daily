@@ -1,6 +1,6 @@
-import { useRouteInfo } from './global-state/router-store';
-import { Router } from './imperative-api';
-import { RouteParams, RouteSegments, UnknownOutputParams, Route } from './types';
+import { useRouteInfo } from '../src/global-state/router-store';
+import { Router } from '../src/imperative-api';
+import { RouteParams, RouteSegments, UnknownOutputParams, Route } from '../src/types';
 export { useRouteInfo };
 /**
  * Returns the [navigation state](https://reactnavigation.org/docs/navigation-state/)
