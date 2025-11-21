@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'expo-router';
 import {
+  Alert,
   FlatList,
   ListRenderItemInfo,
   NativeScrollEvent,
@@ -17,7 +18,8 @@ const FONT_FAMILY = Platform.select({ ios: 'Helvetica', android: 'sans-serif-med
 const ITEM_HEIGHT = 48;
 const VISIBLE_ITEM_COUNT = 3;
 
-import { getReminderTimeSync, hydrateReminderTime, setReminderTime } from '@/state/reminder-preference';
+import { scheduleDailyReminder } from '@/lib/reminder-notifications';
+import { getReminderEnabledSync, getReminderTimeSync, hydrateReminderTime, setReminderTime } from '@/state/reminder-preference';
 
 type WheelPickerProps = {
   options: string[];
@@ -68,7 +70,14 @@ export default function TimeSelectionScreen() {
           style={styles.button}
           activeOpacity={0.9}
           onPress={async () => {
-            await setReminderTime(`${hour}:${minute}`);
+            const nextTime = `${hour}:${minute}`;
+            await setReminderTime(nextTime);
+            if (getReminderEnabledSync()) {
+              const scheduled = await scheduleDailyReminder(nextTime);
+              if (!scheduled) {
+                Alert.alert('Notifications disabled', 'Enable notifications in your device settings to receive reminders.');
+              }
+            }
             router.push('/topic');
           }}>
           <Text style={styles.buttonText}>Continue</Text>

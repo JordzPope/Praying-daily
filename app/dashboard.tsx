@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
+  Alert,
   FlatList,
   ListRenderItemInfo,
   NativeScrollEvent,
@@ -18,6 +19,8 @@ import { FontAwesome5 } from '@expo/vector-icons';
 
 import { dayIdsToLabels, filterDayIds, labelsToDayIds } from '@/constants/days';
 import { TOPIC_ICON_COLOR, TOPICS, TopicId, getTopicById } from '@/constants/topics';
+import { scheduleDailyReminder } from '@/lib/reminder-notifications';
+import { getReminderEnabledSync, getReminderTimeSync, hydrateReminderPreferences, setReminderTime } from '@/state/reminder-preference';
 
 const FONT_FAMILY = Platform.select({ ios: 'Helvetica', android: 'sans-serif-medium', default: 'sans-serif' });
 const PRIMARY_GREEN = '#3F8A3D';
@@ -71,14 +74,23 @@ export default function DashboardScreen() {
 
   const [activePrayers, setActivePrayers] = useState<PrayerItem[]>(samplePrayers);
   const [completedPrayers, setCompletedPrayers] = useState<PrayerItem[]>([]);
+  const initialReminderTime = getReminderTimeSync();
   const [optionsVisible, setOptionsVisible] = useState(false);
   const [selectedPrayer, setSelectedPrayer] = useState<PrayerItem | null>(null);
   const [reminderVisible, setReminderVisible] = useState(false);
-  const [reminderHour, setReminderHour] = useState('07');
-  const [reminderMinute, setReminderMinute] = useState('00');
+  const [reminderHour, setReminderHour] = useState(initialReminderTime.split(':')[0]);
+  const [reminderMinute, setReminderMinute] = useState(initialReminderTime.split(':')[1]);
 
   const reminderHourOptions = useMemo(() => Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0')), []);
   const reminderMinuteOptions = useMemo(() => Array.from({ length: 60 }, (_, i) => i.toString().padStart(2, '0')), []);
+
+  useEffect(() => {
+    hydrateReminderPreferences().then(({ time }) => {
+      const [hour, minute] = time.split(':');
+      setReminderHour(hour);
+      setReminderMinute(minute);
+    });
+  }, []);
 
   useEffect(() => {
     if (!incomingPrayer) return;
@@ -275,7 +287,17 @@ export default function DashboardScreen() {
             <Pressable
               style={styles.reminderSaveButton}
               accessibilityLabel="Save reminder time"
-              onPress={() => setReminderVisible(false)}>
+              onPress={async () => {
+                const nextTime = `${reminderHour}:${reminderMinute}`;
+                await setReminderTime(nextTime);
+                if (getReminderEnabledSync()) {
+                  const scheduled = await scheduleDailyReminder(nextTime);
+                  if (!scheduled) {
+                    Alert.alert('Notifications disabled', 'Enable notifications in your device settings to receive reminders.');
+                  }
+                }
+                setReminderVisible(false);
+              }}>
               <Text style={styles.reminderSaveText}>Save</Text>
             </Pressable>
             <Pressable style={styles.modalCancel} onPress={() => setReminderVisible(false)}>

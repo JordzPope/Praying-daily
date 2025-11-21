@@ -1,10 +1,16 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Alert, Platform, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 
 import { ALL_DAY_IDS, DAYS, DayId, dayIdsToLabels, filterDayIds, isFullWeek, labelsToDayIds } from '@/constants/days';
 import { TOPIC_ICON_COLOR, getTopicById, TopicId } from '@/constants/topics';
+import { cancelScheduledReminders, scheduleDailyReminder } from '@/lib/reminder-notifications';
+import {
+  getReminderTimeSync,
+  hydrateReminderPreferences,
+  setReminderEnabledPreference,
+} from '@/state/reminder-preference';
 
 const FONT_FAMILY = Platform.select({ ios: 'Helvetica', android: 'sans-serif-medium', default: 'sans-serif' });
 const PRIMARY_GREEN = '#3F8A3D';
@@ -43,6 +49,10 @@ export default function EditPrayerScreen() {
   const [selectedDays, setSelectedDays] = useState<Set<DayId>>(new Set(parsedDayIds));
   const [reminderEnabled, setReminderEnabled] = useState(reminderParam === '1');
 
+  useEffect(() => {
+    hydrateReminderPreferences().then(({ enabled }) => setReminderEnabled(enabled));
+  }, []);
+
   const dayStates = useMemo(
     () => DAYS.map((day) => ({ ...day, active: selectedDays.has(day.id) })),
     [selectedDays],
@@ -68,14 +78,22 @@ export default function EditPrayerScreen() {
     });
   };
 
-  const handleReminderToggle = () => {
-    setReminderEnabled((prev) => {
-      const next = !prev;
-      if (next) {
-        Alert.alert('Turn on notifications', 'We will remind you when it is time to pray.');
+  const handleReminderToggle = async () => {
+    const next = !reminderEnabled;
+    if (next) {
+      Alert.alert('Turn on notifications', 'We will remind you when it is time to pray.');
+      const scheduled = await scheduleDailyReminder(getReminderTimeSync());
+      if (!scheduled) {
+        Alert.alert('Notifications disabled', 'Enable notifications in your settings to receive reminders.');
+        return;
       }
-      return next;
-    });
+      await setReminderEnabledPreference(true);
+      setReminderEnabled(true);
+    } else {
+      await cancelScheduledReminders();
+      await setReminderEnabledPreference(false);
+      setReminderEnabled(false);
+    }
   };
 
   const handleSave = () => {
